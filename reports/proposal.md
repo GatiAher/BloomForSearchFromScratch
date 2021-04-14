@@ -1,5 +1,9 @@
 # Bloom For Search (From Scratch)
 
+> Gati Aher  
+> Software Systems SP2020  
+> Final Project
+
 ## Background
 
 ### Bloom Filters
