@@ -89,7 +89,7 @@ int try_bloom(options_t *options)
         }
     }
 
-    printf("\n ------ \n RESULTS: BAD_ADDs %d | TP %d | FP %d | FN %d | TN %d \n", add_warnings, count_TP, count_FP, count_FN, count_TN);
+    printf("\n ------ \n RESULTS: \n BAD_ADDs %d \n TP %d \n FP %d \n FN %d \n TN %d \n", add_warnings, count_TP, count_FP, count_FN, count_TN);
 
     bloom_free(filter);
 

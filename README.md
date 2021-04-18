@@ -27,7 +27,13 @@ bloom [-v] [-a file_words_to_add_to_bloom] [-c file_words_to_check_in_bloom] [-b
 **Result:**
 
 ```
-RESULTS: BAD_ADDs 7 | TP 20 | FP 20 | FN 0 | TN 30
+ ------ 
+ RESULTS: 
+ BAD_ADDs 7 
+ TP 20 
+ FP 20 
+ FN 0 
+ TN 30
 ```
 
 See `data/verbose_result.txt` for example verbose result.

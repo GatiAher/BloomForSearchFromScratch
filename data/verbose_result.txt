@@ -102,4 +102,9 @@ definitely not in begging
 might be in: beguile
 might be in: belabor
  ------ 
- RESULTS: BAD_ADDs 7 | TP 20 | FP 20 | FN 0 | TN 30 
+ RESULTS: 
+ BAD_ADDs 7 
+ TP 20 
+ FP 20 
+ FN 0 
+ TN 30 
