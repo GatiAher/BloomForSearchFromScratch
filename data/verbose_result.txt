@@ -21,7 +21,10 @@ WARNING: all bits have already been set for Astounding
 WARNING: all bits have already been set for Authoritative
 WARNING: all bits have already been set for Authority
 WARNING: all bits have already been set for Awe-inspiring
-added Awesome
+WARNING: all bits have already been set for Awesome
+added Adorable
+WARNING: all bits have already been set for Angelic
+added Amber
  ------ 
  Looking up words that are in bloom filter 
 
@@ -42,6 +45,9 @@ might be in: Authoritative
 might be in: Authority
 might be in: Awe-inspiring
 might be in: Awesome
+might be in: Adorable
+might be in: Angelic
+might be in: Amber
  ------ 
  Looking up words that are not in bloom filter 
 
@@ -61,15 +67,15 @@ might be in: badly
 might be in: baffle
 definitely not in baffled
 definitely not in bafflement
-definitely not in baffling
+might be in: baffling
 definitely not in bait
 definitely not in balk
 might be in: banal
 definitely not in bane
 definitely not in banish
-might be in: banishment
+definitely not in banishment
 might be in: bankrupt
-definitely not in barbarian
+might be in: barbarian
 definitely not in barbaric
 definitely not in barbarically
 definitely not in barbarity
@@ -78,7 +84,7 @@ might be in: barbarously
 definitely not in barren
 definitely not in baseless
 might be in: bash
-definitely not in bashed
+might be in: bashed
 definitely not in bashful
 definitely not in bashing
 might be in: battered
@@ -95,10 +101,5 @@ might be in: beggarly
 definitely not in begging
 might be in: beguile
 might be in: belabor
-might be in: belated
-might be in: beleaguer
-definitely not in belie
-definitely not in belittle
-might be in: belittled
  ------ 
- RESULTS: BAD_ADDs 5 | TP 17 | FP 21 | FN 0 | TN 34 
+ RESULTS: BAD_ADDs 7 | TP 20 | FP 20 | FN 0 | TN 30 
