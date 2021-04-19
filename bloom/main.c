@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
 
         case 'b':
             options.num_bits = atoi(optarg);
-            if (!options.num_bits | (options.num_bits & (options.num_bits - 1)))
+            if ((!options.num_bits) | (options.num_bits & (options.num_bits - 1)))
             {
                 errno = EINVAL;
                 perror(ERR_NUM_BITS_NOT_POW_TWO);

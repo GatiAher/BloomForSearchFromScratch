@@ -6,6 +6,11 @@ The hash function used in a bloom filter must be independent, uniformly distribu
 
 MurmurHash is a non-cryptographic hash function suitable for general hash-based lookup. In this project, I use [jwerle/murmurhash](https://fuchsia.googlesource.com/third_party/murmurhash.c/) which implements version 3 of MurmurHash.
 
+You can try out murmurhash with
+```
+make try_murmurhash && ./try_murmurhash
+```
+
 ## Set-Up
 
 ```
