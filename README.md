@@ -11,9 +11,9 @@ MurmurHash is a non-cryptographic hash function suitable for general hash-based 
 ```
 make
 ```
-You should see an executable named `bloom`.
+You should see an executable named `run_bloom`.
 
-Call `bloom` with the following arguments:
+Call `run_bloom` with the following arguments:
 ```
 bloom [-v] [-a file_words_to_add_to_bloom] [-c file_words_to_check_in_bloom] [-b number_of_bits] [-n number_of_hash_functions] [-h]
 ```
@@ -21,7 +21,7 @@ bloom [-v] [-a file_words_to_add_to_bloom] [-c file_words_to_check_in_bloom] [-b
 **Example:**
 
 ```
-./bloom -a data/in_test.txt -c data/out_test.txt -b 32 -n 3
+./run_bloom -a data/in_test.txt -c data/out_test.txt -b 32 -n 3
 ```
 
 **Result:**
