@@ -19,16 +19,15 @@ void print_array_hex(int size, u_int8_t *array)
 void bitslicesig_print(bitslicedsig_t *bitslicedsig)
 {
     int i, j;
-    printf("\n --- START bitslicedsig: \n");
+    printf("\n ---START bitslicedsig: \n");
     for (i = 0; i < bitslicedsig->num_sig_bits; i++)
     {
-        printf("\n");
         for (j = 0; j < bitslicedsig->num_blocks; j++)
         {
             printf("%x ", bitslicedsig->bit_matrix[i][j]);
         }
     }
-    printf("\n --- END bitslicedsig: \n");
+    printf("\n ---END bitslicedsig: \n");
 }
 
 /**
@@ -45,7 +44,6 @@ int mod_pow_2(int a, int b)
 
 bitslicedsig_t *bitslicedsig_create(int max_doc_capacity, int num_sig_bits, int num_hash_funcs)
 {
-    printf("numsigbits %d \n", num_sig_bits);
     int i;
     bitslicedsig_t *bitslicedsig = malloc(sizeof(bitslicedsig_t));
     bitslicedsig->num_blocks = (max_doc_capacity + WORD_SIZE - 1) / WORD_SIZE;
