@@ -26,7 +26,7 @@ bloom [-v] [-a file_words_to_add_to_bloom] [-c file_words_to_check_in_bloom] [-b
 **Example:**
 
 ```
-./run_bloom -a bloom_data/in_test.txt -c bloom_data/out_test.txt -b 32 -n 3
+./run_bloom -a bloom/data/in_test.txt -c bloom/data/out_test.txt -b 32 -n 3
 ```
 
 **Result:**
@@ -41,7 +41,7 @@ bloom [-v] [-a file_words_to_add_to_bloom] [-c file_words_to_check_in_bloom] [-b
  TN 30
 ```
 
-See `data/verbose_result.txt` for example verbose result.
+See `bloom/results/verbose_result.txt` for example verbose result.
 
 ## Analysis of Results
 

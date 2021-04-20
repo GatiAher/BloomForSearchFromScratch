@@ -7,7 +7,7 @@
 #include <stddef.h>
 #include <stdbool.h>
 
-#include "../deps/murmurhash/murmurhash.h"
+#include "../../deps/murmurhash/murmurhash.h"
 
 typedef struct
 {

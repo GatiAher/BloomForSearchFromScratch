@@ -27,13 +27,13 @@ int try_bitslicedsig(options_t *options)
 
     bitslicedsig_t *bss = bitslicedsig_create(5, 64, 5);
     bitslicesig_print(bss);
-    bitslicedsig_add_doc(bss, 0, "bitslicedsig_data/doc0.txt");
+    bitslicedsig_add_doc(bss, 0, "bitslicedsig/data/doc0.txt");
     printf("Add doc 1: \n");
     bitslicesig_print(bss);
-    bitslicedsig_add_doc(bss, 1, "bitslicedsig_data/doc1.txt");
+    bitslicedsig_add_doc(bss, 1, "bitslicedsig/data/doc1.txt");
     printf("Add doc 2: \n");
     bitslicesig_print(bss);
-    bitslicedsig_add_doc(bss, 2, "bitslicedsig_data/doc2.txt");
+    bitslicedsig_add_doc(bss, 2, "bitslicedsig/data/doc2.txt");
     printf("Add doc 3: \n");
     bitslicesig_print(bss);
     bitslicedsig_query(bss, "skiff in the Gulf Stream");
