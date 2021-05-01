@@ -18,6 +18,7 @@ int main(void)
     const char *key = "gati";
     u_int32_t hash = murmurhash(key, (u_int32_t)strlen(key), seed); // 0xbcce539
     assert(hash == 0xbcce539);
-    printf("hash: %x \n", hash);
+    printf("expect hash: bcce539 \n");
+    printf("given  hash: %x \n", hash);
     return 0;
 }

@@ -2,8 +2,8 @@
 murmurhash.o: deps/murmurhash/murmurhash.c deps/murmurhash/murmurhash.h
 	gcc -c deps/murmurhash/murmurhash.c
 
-test_murmurhash: bloom/src/test_murmurhash.c murmurhash.o
-	gcc -Wpedantic -Wall -Wextra -o test_murmurhash bloom/src/test_murmurhash.c murmurhash.o
+test_murmurhash: bloom/test/test_murmurhash.c murmurhash.o
+	gcc -Wpedantic -Wall -Wextra -o test_murmurhash bloom/test/test_murmurhash.c murmurhash.o
 
 # bloom
 bloom.o: bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
