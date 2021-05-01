@@ -7,22 +7,6 @@
 
 #include "test_bloom.h"
 
-void print_bloom(bloom_t *filter)
-{
-    printf("\n---------------------------------\n");
-    printf("Bloom filter\n");
-    printf("\n m = %d, k = %d", filter->m, filter->k);
-    printf("\n hash_seeds = ");
-    uint32_t i;
-    for (i = 0; i < filter->k; i++)
-        printf("%d ", filter->hash_seeds[i]);
-    printf("\n array = ");
-    for (i = 0; i < filter->m; i++)
-        printf("%x ", filter->array[i]);
-    printf("... [output truncated]");
-    printf("\n---------------------------------\n");
-}
-
 void test_bloom_lookup(options_t *options, bloom_t *filter)
 {
     // assumes no word exceeds length of 1023 */
@@ -78,7 +62,6 @@ void test_bloom_lookup(options_t *options, bloom_t *filter)
     printf("\n**results of lookup test: TP %d | FP %d | FN %d | TN %d \n", count_TP, count_FP, count_FN, count_TN);
 }
 
-/* Run Bloom filter functionality test*/
 int test_bloom(options_t *options)
 {
     uint32_t add_warnings = 0;
@@ -105,7 +88,7 @@ int test_bloom(options_t *options)
     printf("\n---\nCreate Bloom filter with %d bits and %d hash functions\n", options->num_bits, options->num_hash);
     bloom_t *filter = bloom_create(options->num_bits, options->num_hash);
     if (options->verbose)
-        print_bloom(filter);
+        bloom_print(filter);
 
     printf("\n---\nAdd words to Bloom filter\n");
     const uint32_t bufferLength = 1023; // assumes no term exceeds length of 1023
@@ -128,7 +111,7 @@ int test_bloom(options_t *options)
 
     printf("\n*number of add warnings: %d\n", add_warnings);
     if (options->verbose)
-        print_bloom(filter);
+        bloom_print(filter);
 
     test_bloom_lookup(options, filter);
 
@@ -147,7 +130,7 @@ int test_bloom(options_t *options)
 
     printf("\n---\nLoad Bloom Filter from %s\n", test_save_bloom);
     bloom_t *load_filter = bloom_load(test_save_bloom);
-    print_bloom(load_filter);
+    bloom_print(load_filter);
     test_bloom_lookup(options, load_filter);
 
     if (options->verbose)

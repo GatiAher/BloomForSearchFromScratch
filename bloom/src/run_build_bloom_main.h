@@ -8,7 +8,6 @@
 #ifndef MAIN_H
 #define MAIN_H
 
-/* includes */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,7 +17,6 @@
 #include <getopt.h>
 #include <stdint.h>
 
-/* defines */
 #define OPTSTR "va:o:m:k:h"
 #define USAGE_FMT "%s [-v] [-a (optional) file_words_to_add_to_bloom] [-o file_save_bloom_to] [-m number_of_bits] [-k number_of_hash_functions] [-h]\n"
 #define ERR_FOPEN_ADD_TO_BLOOM "Error while opening the file: fopen(file_words_to_add_to_bloom, r)"
@@ -26,7 +24,6 @@
 #define ERR_RUN_BLOOM "run_build_bloom failed"
 #define DEFAULT_PROGNAME "build_bloom"
 
-/* typedefs */
 typedef struct
 {
     int verbose;
@@ -38,7 +35,7 @@ typedef struct
 
 #include "run_build_bloom.h"
 
-/* function prototypes */
+/* print program details */
 void usage(char *progname);
 
 #endif

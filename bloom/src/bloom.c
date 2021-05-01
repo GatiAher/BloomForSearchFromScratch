@@ -5,16 +5,6 @@
 
 /* Helper Functions */
 
-// /* print an array in hexadecimal */
-// void print_array_hex(int size, u_int32_t *array)
-// {
-//     for (int i = 0; i < size; i++)
-//     {
-//         u_int32_t x = array[i];
-//         printf("%x ", x);
-//     }
-// }
-
 /**
  * Returns a mod b
  * 
@@ -179,4 +169,21 @@ bloom_t *bloom_load(const char *filename)
 
     fclose(infile);
     return filter;
+}
+
+void bloom_print(bloom_t *filter)
+{
+    printf("\n---------------------------------\n");
+    printf("Bloom filter\n");
+    printf("\n m = %d, k = %d", filter->m, filter->k);
+    u_int32_t i;
+    printf("\n hash_seeds = ");
+    for (i = 0; i < filter->k; i++)
+        printf("%d ", filter->hash_seeds[i]);
+
+    printf("\n array = ");
+    for (i = 0; i < 10; i++)
+        printf("%x ", filter->array[i]);
+    printf("... [output truncated]");
+    printf("\n---------------------------------\n");
 }

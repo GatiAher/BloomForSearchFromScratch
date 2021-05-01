@@ -1,14 +1,12 @@
 /**
- * Bloom Filter From Scratch
+ * Test that Bloom filter implementation works as expected.
  * 
  * Author: Gati Aher
+ * Date: April 30, 2021
  */
 
-/* includes */
 #include "test_bloom_main.h"
-#include "test_bloom.h"
 
-/* external declarations */
 extern int errno;
 extern char *optarg;
 extern int opterr, optind;

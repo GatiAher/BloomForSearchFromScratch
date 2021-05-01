@@ -11,6 +11,7 @@
 #include "test_bloom_main.h"
 #include "bloom.h"
 
+/* Run Bloom filter functionality test*/
 int test_bloom(options_t *options);
 
 #endif

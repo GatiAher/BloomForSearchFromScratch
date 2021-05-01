@@ -44,14 +44,14 @@ bloom_t *bloom_create(u_int32_t m, u_int32_t num_hash_funcs);
  */
 void bloom_free(bloom_t *filter);
 
-/** Adds an item to the Bloom filter
+/** Add an item to the Bloom filter
  * 
  * filter: Bloom filter
  * item: string to add to Bloom filter
  */
 void bloom_add(bloom_t *filter, const char *item);
 
-/** Tests if an item is in the Bloom filter
+/** Check if an item is in the Bloom filter
  * 
  * filter: Bloom filter
  * item: string to check for in Bloom filter
@@ -61,7 +61,7 @@ void bloom_add(bloom_t *filter, const char *item);
  */
 bool bloom_lookup(bloom_t *filter, const char *item);
 
-/** Adds an item to the Bloom filter
+/** Add an item to the Bloom filter
  * 
  * filter: Bloom filter
  * item: string to add to Bloom filter
@@ -71,7 +71,7 @@ bool bloom_lookup(bloom_t *filter, const char *item);
  */
 bool bloom_add_with_warning(bloom_t *filter, const char *item);
 
-/** Saves a Bloom filter to file
+/** Save a Bloom filter to file
  * 
  * filter: Bloom filter
  * filename: valid filename 
@@ -80,11 +80,17 @@ bool bloom_add_with_warning(bloom_t *filter, const char *item);
  */
 u_int32_t bloom_save(bloom_t *filter, const char *filename);
 
-/** Loads a Bloom filter from file
+/** Load a Bloom filter from file
  * 
  * filename: valid filename 
  * Returns a Bloom filter saved by bloom_save
  */
 bloom_t *bloom_load(const char *filename);
+
+/** Print a Bloom filter
+ * 
+ * filter: Bloom filter
+ */
+void bloom_print(bloom_t *filter);
 
 #endif

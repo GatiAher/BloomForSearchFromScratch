@@ -7,22 +7,6 @@
 
 #include "run_build_bloom.h"
 
-void print_bloom(bloom_t *filter)
-{
-    printf("\n---------------------------------\n");
-    printf("Bloom filter\n");
-    printf("\n m = %d, k = %d", filter->m, filter->k);
-    printf("\n hash_seeds = ");
-    uint32_t i;
-    for (i = 0; i < filter->k; i++)
-        printf("%d ", filter->hash_seeds[i]);
-    printf("\n array = ");
-    for (i = 0; i < 10; i++)
-        printf("%x ", filter->array[i]);
-    printf("... [output truncated]");
-    printf("\n---------------------------------\n");
-}
-
 int run_build_bloom(options_t *options)
 {
     if (!options)
@@ -46,7 +30,7 @@ int run_build_bloom(options_t *options)
     /* create Bloom filter */
     bloom_t *filter = bloom_create(options->num_bits, options->num_hash);
     if (options->verbose)
-        print_bloom(filter);
+        bloom_print(filter);
 
     /* add terms to Bloom filter */
     const uint32_t bufferLength = 1023; // assumes no term exceeds length of 1023
@@ -65,7 +49,7 @@ int run_build_bloom(options_t *options)
     fclose(f_add);
 
     if (options->verbose)
-        print_bloom(filter);
+        bloom_print(filter);
 
     /* save Bloom filter */
     uint32_t save_status = bloom_save(filter, options->save_bloom);
