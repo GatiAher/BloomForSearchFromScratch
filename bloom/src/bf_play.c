@@ -37,7 +37,7 @@ int bf_play(options_t *options)
     while (fgets(buffer, bufferLength, options->fread_input_from))
     {
         rest = buffer;
-        while ((token = strtok_r(rest, " .,?", &rest)))
+        while ((token = strtok_r(rest, " !\"#$%%&()*+,-./:;<=>?@[\\]^_`{|}~", &rest)))
         {
             if (token[strlen(token) - 1] == '\n')
                 token[strlen(token) - 1] = '\0';

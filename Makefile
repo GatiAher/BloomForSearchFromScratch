@@ -32,7 +32,7 @@ bf_spellcheck.dat: bf_editor
 bf_spellcheck_w_Gati.dat: bf_spellcheck.dat
 	echo "Gati" | ./bf_editor -o bf_spellcheck_w_Gati.dat -f bf_spellcheck.dat
 
-bf_play_spellcheck: bf_play bf_spellcheck.dat
+bf_spellcheck: bf_play bf_spellcheck.dat
 	echo "hi my name is Gati" | ./bf_play -f bf_spellcheck.dat
 
 bf_spellcheck_w_Gati: bf_play bf_spellcheck_w_Gati.dat

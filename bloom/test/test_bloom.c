@@ -26,7 +26,7 @@ void process_stream(test_results_t *test_res, bloom_t *filter, void (*operate)(t
     while (fgets(buffer, bufferLength, stream))
     {
         rest = buffer;
-        while ((token = strtok_r(rest, " .,?", &rest)))
+        while ((token = strtok_r(rest, " !\"#$%%&()*+,-./:;<=>?@[\\]^_`{|}~", &rest)))
         {
             if (token[strlen(token) - 1] == '\n')
                 token[strlen(token) - 1] = '\0';
