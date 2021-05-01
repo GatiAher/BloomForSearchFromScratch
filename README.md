@@ -45,12 +45,13 @@ Load Bloom Filter from test_save_bloom.txt
 ---------------------------------
 Bloom filter
 
- m = 64, k = 3
- hash_seeds = 28 10 6 
- array = a78fffff 867c8f3 0 0 0 0 21 0 1c a 6 0 0 0 1011 0 6f736241 6574756c 410a796c 646e7562 65636e61 7562410a 6e61646e 63410a74 706d6f63 6873696c 410a6465 65696863 410a6576 6e657664 65727574 6666410a 6e65756c 6c410a74 a657669 756c6c41 676e6972 776c410a a737961 7a616d41 a676e69 6f747341 6873696e a676e69 6f747341 69646e75 410a676e 6f687475 61746972 65766974 7475410a 69726f68 410a7974 692d6577 6970736e 676e6972 6577410a 656d6f73 6f64410a 6c626172 6e410a65 696c6567 6d410a63 726562 ... [output truncated]
+m = 64, k = 3
+hash_seeds = 28 10 6 
+array = a78fffff 867c8f3 0 0 0 0 1c701 0 0 0 ... [output truncated]
+41/64 bits set
 ---------------------------------
 
-**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38
+**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 
 ```
 
 See [./bloom/results/output_test_bloom_verbose.txt](./bloom/results/output_test_bloom_verbose.txt) for example verbose result.

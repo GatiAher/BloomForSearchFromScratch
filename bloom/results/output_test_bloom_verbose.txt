@@ -5,9 +5,10 @@ Create Bloom filter with 60 bits and 3 hash functions
 ---------------------------------
 Bloom filter
 
- m = 64, k = 3
- hash_seeds = 28 10 6 
- array = 0 0 0 0 0 0 21 0 1c a ... [output truncated]
+m = 64, k = 3
+hash_seeds = 28 10 6 
+array = 0 0 0 0 0 0 21 0 1c a ... [output truncated]
+0/64 bits set
 ---------------------------------
 
 ---
@@ -37,9 +38,10 @@ Add words to Bloom filter
 ---------------------------------
 Bloom filter
 
- m = 64, k = 3
- hash_seeds = 28 10 6 
- array = a78fffff 867c8f3 0 0 0 0 21 0 1c a ... [output truncated]
+m = 64, k = 3
+hash_seeds = 28 10 6 
+array = a78fffff 867c8f3 0 0 0 0 21 0 1c a ... [output truncated]
+41/64 bits set
 ---------------------------------
 
 Look up words that are really not in Bloom filter
@@ -130,9 +132,10 @@ Load Bloom Filter from test_save_bloom.txt
 ---------------------------------
 Bloom filter
 
- m = 64, k = 3
- hash_seeds = 28 10 6 
- array = a78fffff 867c8f3 0 0 0 0 1c701 0 0 0 ... [output truncated]
+m = 64, k = 3
+hash_seeds = 28 10 6 
+array = a78fffff 867c8f3 0 0 0 0 1c701 0 0 0 ... [output truncated]
+41/64 bits set
 ---------------------------------
 
 Look up words that are really not in Bloom filter
