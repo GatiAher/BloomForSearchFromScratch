@@ -1,0 +1,216 @@
+
+---
+Create Bloom filter with 60 bits and 3 hash functions
+
+---------------------------------
+Bloom filter
+
+ m = 64, k = 3
+ hash_seeds = 28 10 6 
+ array = 0 0 0 0 0 0 21 0 1c a 6 0 0 0 1f931 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 ... [output truncated]
+---------------------------------
+
+---
+Add words to Bloom filter
+>> added Absolutely
+>> added Abundance
+>> added Abundant
+>> added Accomplished
+>> added Achieve
+>> added Adventure
+>> added Affluent
+>> added Alive
+>> added Alluring
+>> added Always
+>> added Amazing
+>> added Astonishing
+>> added Astounding
+>> added Authoritative
+>> added Authority
+>> added Awe-inspiring
+>> added Awesome
+!! WARNING: all bits have already been set for Adorable
+>> added Angelic
+>> added Amber
+*number of add warnings: 1
+
+---------------------------------
+Bloom filter
+
+ m = 64, k = 3
+ hash_seeds = 28 10 6 
+ array = a78fffff 867c8f3 0 0 0 0 21 0 1c a 6 0 0 0 1011 0 6f736241 6574756c 410a796c 646e7562 65636e61 7562410a 6e61646e 63410a74 706d6f63 6873696c 410a6465 65696863 410a6576 6e657664 65727574 6666410a 6e65756c 6c410a74 a657669 756c6c41 676e6972 776c410a a737961 7a616d41 a676e69 6f747341 6873696e a676e69 6f747341 69646e75 410a676e 6f687475 61746972 65766974 7475410a 69726f68 410a7974 692d6577 6970736e 676e6972 6577410a 656d6f73 6f64410a 6c626172 6e410a65 696c6567 6d410a63 726562 ... [output truncated]
+---------------------------------
+
+Look up words that are really not in Bloom filter
+
+>> might be in: Absolutely
+>> might be in: Abundance
+>> might be in: Abundant
+>> might be in: Accomplished
+>> might be in: Achieve
+>> might be in: Adventure
+>> might be in: Affluent
+>> might be in: Alive
+>> might be in: Alluring
+>> might be in: Always
+>> might be in: Amazing
+>> might be in: Astonishing
+>> might be in: Astounding
+>> might be in: Authoritative
+>> might be in: Authority
+>> might be in: Awe-inspiring
+>> might be in: Awesome
+>> might be in: Adorable
+>> might be in: Angelic
+>> might be in: Amber
+
+Look up words that are really in Bloom filter
+
+>> definitely not in: babble
+>> definitely not in: back-logged
+>> definitely not in: back-wood
+>> definitely not in: back-woods
+>> definitely not in: backache
+>> definitely not in: backaches
+>> definitely not in: backbite
+>> definitely not in: backbiting
+>> definitely not in: backward
+>> definitely not in: backwardness
+>> definitely not in: backwoods
+>> definitely not in: bad
+!! might be in: badly
+>> definitely not in: baffle
+>> definitely not in: baffled
+>> definitely not in: bafflement
+!! might be in: baffling
+!! might be in: bait
+>> definitely not in: balk
+>> definitely not in: banal
+!! might be in: bane
+!! might be in: banish
+>> definitely not in: banishment
+!! might be in: bankrupt
+>> definitely not in: barbarian
+>> definitely not in: barbaric
+!! might be in: barbarically
+>> definitely not in: barbarity
+>> definitely not in: barbarous
+!! might be in: barbarously
+!! might be in: barren
+>> definitely not in: baseless
+>> definitely not in: bash
+>> definitely not in: bashed
+>> definitely not in: bashful
+>> definitely not in: bashing
+!! might be in: battered
+!! might be in: battering
+>> definitely not in: batty
+>> definitely not in: bearish
+>> definitely not in: beastly
+>> definitely not in: bedlam
+>> definitely not in: bedlamite
+>> definitely not in: befoul
+>> definitely not in: beg
+!! might be in: beggar
+>> definitely not in: beggarly
+>> definitely not in: begging
+>> definitely not in: beguile
+>> definitely not in: belabor
+**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 
+
+---
+Save Bloom filter
+Sucessfully saved Bloom filter to test_save_bloom.txt!
+---
+Free Bloom filter
+---
+Load Bloom Filter from test_save_bloom.txt
+
+---------------------------------
+Bloom filter
+
+ m = 64, k = 3
+ hash_seeds = 28 10 6 
+ array = a78fffff 867c8f3 0 0 0 0 21 0 1c a 6 0 0 0 1011 0 6f736241 6574756c 410a796c 646e7562 65636e61 7562410a 6e61646e 63410a74 706d6f63 6873696c 410a6465 65696863 410a6576 6e657664 65727574 6666410a 6e65756c 6c410a74 a657669 756c6c41 676e6972 776c410a a737961 7a616d41 a676e69 6f747341 6873696e a676e69 6f747341 69646e75 410a676e 6f687475 61746972 65766974 7475410a 69726f68 410a7974 692d6577 6970736e 676e6972 6577410a 656d6f73 6f64410a 6c626172 6e410a65 696c6567 6d410a63 726562 ... [output truncated]
+---------------------------------
+
+Look up words that are really not in Bloom filter
+
+>> might be in: Absolutely
+>> might be in: Abundance
+>> might be in: Abundant
+>> might be in: Accomplished
+>> might be in: Achieve
+>> might be in: Adventure
+>> might be in: Affluent
+>> might be in: Alive
+>> might be in: Alluring
+>> might be in: Always
+>> might be in: Amazing
+>> might be in: Astonishing
+>> might be in: Astounding
+>> might be in: Authoritative
+>> might be in: Authority
+>> might be in: Awe-inspiring
+>> might be in: Awesome
+>> might be in: Adorable
+>> might be in: Angelic
+>> might be in: Amber
+
+Look up words that are really in Bloom filter
+
+>> definitely not in: babble
+>> definitely not in: back-logged
+>> definitely not in: back-wood
+>> definitely not in: back-woods
+>> definitely not in: backache
+>> definitely not in: backaches
+>> definitely not in: backbite
+>> definitely not in: backbiting
+>> definitely not in: backward
+>> definitely not in: backwardness
+>> definitely not in: backwoods
+>> definitely not in: bad
+!! might be in: badly
+>> definitely not in: baffle
+>> definitely not in: baffled
+>> definitely not in: bafflement
+!! might be in: baffling
+!! might be in: bait
+>> definitely not in: balk
+>> definitely not in: banal
+!! might be in: bane
+!! might be in: banish
+>> definitely not in: banishment
+!! might be in: bankrupt
+>> definitely not in: barbarian
+>> definitely not in: barbaric
+!! might be in: barbarically
+>> definitely not in: barbarity
+>> definitely not in: barbarous
+!! might be in: barbarously
+!! might be in: barren
+>> definitely not in: baseless
+>> definitely not in: bash
+>> definitely not in: bashed
+>> definitely not in: bashful
+>> definitely not in: bashing
+!! might be in: battered
+!! might be in: battering
+>> definitely not in: batty
+>> definitely not in: bearish
+>> definitely not in: beastly
+>> definitely not in: bedlam
+>> definitely not in: bedlamite
+>> definitely not in: befoul
+>> definitely not in: beg
+!! might be in: beggar
+>> definitely not in: beggarly
+>> definitely not in: begging
+>> definitely not in: beguile
+>> definitely not in: belabor
+**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 
+
+---
+Free loaded Bloom filter

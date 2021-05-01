@@ -6,7 +6,7 @@
 
 /* includes */
 #include "main.h"
-#include "try_bloom.h"
+#include "test_bloom.h"
 
 /* external declarations */
 extern int errno;
@@ -42,18 +42,11 @@ int main(int argc, char *argv[])
             }
             break;
 
-        case 'b':
+        case 'm':
             options.num_bits = atoi(optarg);
-            if ((!options.num_bits) | (options.num_bits & (options.num_bits - 1)))
-            {
-                errno = EINVAL;
-                perror(ERR_NUM_BITS_NOT_POW_TWO);
-                exit(EXIT_FAILURE);
-                /* NOTREACHED */
-            }
             break;
 
-        case 'n':
+        case 'k':
             options.num_hash = atoi(optarg);
             break;
 
@@ -68,7 +61,7 @@ int main(int argc, char *argv[])
             break;
         }
 
-    if (try_bloom(&options) != EXIT_SUCCESS)
+    if (test_bloom(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BLOOM);
         exit(EXIT_FAILURE);

@@ -2,8 +2,8 @@
 #define BLOOM_H
 
 #include <stdlib.h>
-#include <string.h>
 #include <stdio.h>
+#include <string.h>
 #include <stddef.h>
 #include <stdbool.h>
 
@@ -11,55 +11,80 @@
 
 typedef struct
 {
-    int num_bits;
-    u_int8_t *array;
-    int num_hash_funcs;
+    u_int32_t m;
+    u_int32_t *array;
+    u_int32_t k;
     u_int32_t *hash_seeds;
 } bloom_t;
 
-/** Creates a new bloom filter
+/** Creates a new Bloom filter
  * 
- * filter created with large size or large number of hash functions
- * has fewer collisions (fewer false positives), but takes up more space,
- * and greater number of hash functions leads to slower insertion and 
- * lookup performance time. 
+ * The number of signature bits (m) and number of hash functions (k) control the Bloom filter false positive rate. 
  * 
- * num_bits: number of bits allocated for bit array, should be a power of 2
- * num_hash_funcs: number of hash functions
+ * The value of m configures how many bits will be allocated for the bit array. 
+ * Ideally, when all the items are added, the bit array should be approximately half full.
+ * Worst case is if the bit array is completely full (all 1s), as it will say that every query may be in the filter (false positives).
+ * For performance reasons, the bit array rounds m to the nearest largest power of 2.
+ * 
+ * The value of k configures how my hash functions will be used in the Bloom filter hashing scheme.
+ * A higher number of hash functions means that there is a higher signal to noise ratio,
+ * where signal is the probability that if the term is a member of set given that all the term's probes are present in the Bloom filter,
+ * and noise is the probability of a false positive. Rarer terms have a higher likelihood of being a false positive, so increasing k
+ * improves the signal to noise ratio and allows for better retrival of rate terms. However, a larger k leads more hash operations, and
+ * therefore slower insertion and lookup time. The seeds of the hash function are generated with a random number generator.
+ * 
+ * m: (integer) number of bits allocated for bit array
+ * k: (integer) number of hash functions
  */
-bloom_t *bloom_create(int num_bits, int num_hash_funcs);
+bloom_t *bloom_create(u_int32_t m, u_int32_t num_hash_funcs);
 
-/** Frees a bloom filter 
+/** Frees a Bloom filter 
  * 
- * filter: bloom filter
+ * filter: Bloom filter
  */
 void bloom_free(bloom_t *filter);
 
-/** Adds an item to the bloom filter
+/** Adds an item to the Bloom filter
  * 
- * filter: bloom filter
- * item: string to add to bloom filter
+ * filter: Bloom filter
+ * item: string to add to Bloom filter
  */
 void bloom_add(bloom_t *filter, const char *item);
 
-/** Tests if an item is in the bloom filter
+/** Tests if an item is in the Bloom filter
  * 
- * filter: bloom filter
- * item: string to check for in bloom filter
+ * filter: Bloom filter
+ * item: string to check for in Bloom filter
  * 
- * Returns false if the item has definitely not been added to the bloom filter
- * Returns true if the item might have been added to the bloom filter
+ * Returns false if the item has definitely not been added to the Bloom filter
+ * Returns true if the item might have been added to the Bloom filter
  */
 bool bloom_lookup(bloom_t *filter, const char *item);
 
-/** Adds an item to the bloom filter
+/** Adds an item to the Bloom filter
  * 
- * filter: bloom filter
- * item: string to add to bloom filter
+ * filter: Bloom filter
+ * item: string to add to Bloom filter
  * 
  * Returns true if all the hash bits for item have been previously set.
  * Otherwise returns false.
  */
 bool bloom_add_with_warning(bloom_t *filter, const char *item);
+
+/** Saves a Bloom filter to file
+ * 
+ * filter: Bloom filter
+ * filename: valid filename 
+ * 
+ * Returns status code 0 if successful, 1 if unsuccessful
+ */
+u_int32_t bloom_save(bloom_t *filter, const char *filename);
+
+/** Loads a Bloom filter from file
+ * 
+ * filename: valid filename 
+ * Returns a Bloom filter saved by bloom_save
+ */
+bloom_t *bloom_load(const char *filename);
 
 #endif
