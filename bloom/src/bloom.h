@@ -15,6 +15,7 @@ typedef struct
     u_int32_t *array;
     u_int32_t k;
     u_int32_t *hash_seeds;
+    u_int32_t n;
 } bloom_t;
 
 /** Creates a new Bloom filter
@@ -45,6 +46,8 @@ bloom_t *bloom_create(u_int32_t m, u_int32_t num_hash_funcs);
 void bloom_free(bloom_t *filter);
 
 /** Add an item to the Bloom filter
+ * 
+ * Adds item to Bloom filter and increments n.
  * 
  * filter: Bloom filter
  * item: string to add to Bloom filter

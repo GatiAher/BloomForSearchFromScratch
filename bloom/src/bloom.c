@@ -70,6 +70,8 @@ bloom_t *bloom_create(u_int32_t m, u_int32_t k)
     for (i = 0; i < k; i++)
         filter->hash_seeds[i] = (rand() % (WORD_SIZE + 1));
 
+    filter->n = 0;
+
     return filter;
 }
 
@@ -98,6 +100,7 @@ void bloom_add(bloom_t *filter, const char *item)
         // set the bit in array by setting specific bit of specific word
         bits[hash >> WORD_POW] |= 1 << mod_pow_2(hash, WORD_SIZE);
     }
+    filter->n += 1;
 }
 
 bool bloom_lookup(bloom_t *filter, const char *item)
@@ -151,6 +154,10 @@ u_int32_t bloom_save(bloom_t *filter, const char *filename)
     if (fwrite(&filter->k, sizeof(u_int32_t), 1, outfile) == 0)
         status_code = 1;
 
+    // n
+    if (fwrite(&filter->n, sizeof(u_int32_t), 1, outfile) == 0)
+        status_code = 1;
+
     // hash_seeds
     if (fwrite(filter->hash_seeds, sizeof(u_int32_t), filter->k, outfile) == 0)
         status_code = 1;
@@ -175,13 +182,14 @@ bloom_t *bloom_load(const char *filename)
         exit(1);
     }
 
-    u_int32_t m;
-    u_int32_t k;
+    u_int32_t m, k, n;
 
     fread(&m, sizeof(u_int32_t), 1, infile);
     fread(&k, sizeof(u_int32_t), 1, infile);
+    fread(&n, sizeof(u_int32_t), 1, infile);
 
     bloom_t *filter = bloom_create(m, k);
+    filter->n = n;
 
     fread(filter->hash_seeds, sizeof(u_int32_t), filter->k, infile);
     fread(filter->array, sizeof(u_int32_t), filter->m >> WORD_POW, infile);
@@ -211,5 +219,6 @@ void bloom_print(bloom_t *filter)
         csb += count_set_bits(filter->array[i]);
     }
     printf("%d/%d bits set\n", csb, filter->m);
+    printf("%d items added\n", filter->n);
     printf("---------------------------------\n");
 }
