@@ -1,0 +1,5 @@
+
+ --- 
+testing murmurhash dependency 
+expect hash: bcce539 
+given  hash: bcce539 

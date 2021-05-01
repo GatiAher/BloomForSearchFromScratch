@@ -14,6 +14,7 @@
 
 int main(void)
 {
+    printf("\n --- \ntesting murmurhash dependency \n");
     u_int32_t seed = 0;
     const char *key = "gati";
     u_int32_t hash = murmurhash(key, (u_int32_t)strlen(key), seed); // 0xbcce539
