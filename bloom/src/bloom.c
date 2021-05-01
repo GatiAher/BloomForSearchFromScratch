@@ -36,6 +36,25 @@ u_int32_t get_next_pow_2(u_int32_t n)
     return n;
 }
 
+/**Count bits set in number
+ * 
+ * source: https://graphics.stanford.edu/~seander/bithacks.html#CountBitsSetParallel
+ * 
+ * Return count of set bits
+ */
+u_int32_t count_set_bits(u_int32_t n)
+{
+    unsigned int c; // store the total here
+
+    // divide and conquer
+    c = n - ((n >> 1) & 0x55555555);
+    c = ((c >> 2) & 0x33333333) + (c & 0x33333333);
+    c = ((c >> 4) + c) & 0x0F0F0F0F;
+    c = ((c >> 8) + c) & 0x00FF00FF;
+    c = ((c >> 16) + c) & 0x0000FFFF;
+    return c;
+}
+
 bloom_t *bloom_create(u_int32_t m, u_int32_t k)
 {
     u_int32_t i = 0;
@@ -175,15 +194,22 @@ void bloom_print(bloom_t *filter)
 {
     printf("\n---------------------------------\n");
     printf("Bloom filter\n");
-    printf("\n m = %d, k = %d", filter->m, filter->k);
+    printf("\nm = %d, k = %d", filter->m, filter->k);
     u_int32_t i;
-    printf("\n hash_seeds = ");
+    printf("\nhash_seeds = ");
     for (i = 0; i < filter->k; i++)
         printf("%d ", filter->hash_seeds[i]);
 
-    printf("\n array = ");
+    printf("\narray = ");
     for (i = 0; i < 10; i++)
         printf("%x ", filter->array[i]);
-    printf("... [output truncated]");
-    printf("\n---------------------------------\n");
+    printf("... [output truncated]\n");
+
+    u_int32_t csb = 0;
+    for (i = 0; i < filter->m >> WORD_POW; i++)
+    {
+        csb += count_set_bits(filter->array[i]);
+    }
+    printf("%d/%d bits set\n", csb, filter->m);
+    printf("---------------------------------\n");
 }
