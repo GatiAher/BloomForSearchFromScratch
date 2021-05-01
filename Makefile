@@ -14,6 +14,9 @@ bloom.o: bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
 test_bloom: bloom/src/test_bloom_main.c bloom/src/test_bloom_main.h bloom/src/test_bloom.c bloom/src/test_bloom.h bloom.o
 	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/src/test_bloom_main.c bloom/src/test_bloom.c bloom.o murmurhash.o
 
+run_build_bloom: bloom/src/run_build_bloom_main.c bloom/src/run_build_bloom_main.h bloom/src/run_build_bloom.c bloom/src/run_build_bloom.h bloom.o
+	gcc -Wpedantic -Wall -Wextra -o run_build_bloom bloom/src/run_build_bloom_main.c bloom/src/run_build_bloom.c bloom.o murmurhash.o
+
 # bitslicedsig
 run_bitslicedsig: bitslicedsig/src/main.c bitslicedsig/src/main.h bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/try_bitslicedsig.h bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h murmurhash.o
 	gcc -Wpedantic -Wall -Wextra -o run_bitslicedsig bitslicedsig/src/main.c bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/bitslicedsig.c murmurhash.o
