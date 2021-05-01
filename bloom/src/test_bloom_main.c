@@ -5,7 +5,7 @@
  */
 
 /* includes */
-#include "main.h"
+#include "test_bloom_main.h"
 #include "test_bloom.h"
 
 /* external declarations */

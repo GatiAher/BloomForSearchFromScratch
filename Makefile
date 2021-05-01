@@ -8,8 +8,11 @@ test_murmurhash: bloom/src/test_murmurhash.c murmurhash.o
 	gcc -Wpedantic -Wall -Wextra -o test_murmurhash bloom/src/test_murmurhash.c murmurhash.o
 
 # bloom
-test_bloom: bloom/src/main.c bloom/src/main.h bloom/src/test_bloom.c bloom/src/test_bloom.h bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
-	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/src/main.c bloom/src/test_bloom.c bloom/src/bloom.c murmurhash.o
+bloom.o: bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
+	gcc -c bloom/src/bloom.c
+
+test_bloom: bloom/src/test_bloom_main.c bloom/src/test_bloom_main.h bloom/src/test_bloom.c bloom/src/test_bloom.h bloom.o
+	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/src/test_bloom_main.c bloom/src/test_bloom.c bloom.o murmurhash.o
 
 # bitslicedsig
 run_bitslicedsig: bitslicedsig/src/main.c bitslicedsig/src/main.h bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/try_bitslicedsig.h bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h murmurhash.o

@@ -22,7 +22,7 @@ bloom [-v] [-a file_words_to_add_to_bloom] [-c file_words_to_check_in_bloom] [-m
 **Example:**
 
 ```
-make test_bloom & ./test_bloom -a bloom/data/in_test.txt -c bloom/data/out_test.txt -m 60 -k 3
+make test_bloom && ./test_bloom -a bloom/data/in_test.txt -c bloom/data/out_test.txt -m 60 -k 3
 ```
 
 **Result:**

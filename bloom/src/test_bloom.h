@@ -8,7 +8,7 @@
 #ifndef TEST_BLOOM_H
 #define TEST_BLOOM_H
 
-#include "main.h"
+#include "test_bloom_main.h"
 #include "bloom.h"
 
 int test_bloom(options_t *options);
