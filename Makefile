@@ -9,11 +9,8 @@ test_murmurhash: bloom/src/test_murmurhash.c murmurhash.o
 bloom.o: bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
 	gcc -c bloom/src/bloom.c
 
-test_bloom: bloom/src/test_bloom_main.c bloom/src/test_bloom_main.h bloom/src/test_bloom.c bloom/src/test_bloom.h bloom.o
-	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/src/test_bloom_main.c bloom/src/test_bloom.c bloom.o murmurhash.o
-
-run_test_bloom: test_bloom
-	./test_bloom -a bloom/data/in_test.txt -c bloom/data/out_test.txt -m 60 -k 3
+test_bloom: bloom/test/test_bloom_main.c bloom/test/test_bloom_main.h bloom/test/test_bloom.c bloom/test/test_bloom.h bloom.o
+	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/test/test_bloom_main.c bloom/test/test_bloom.c bloom.o murmurhash.o
 
 prog_build_bloom: bloom/src/build_bloom_main.c bloom/src/build_bloom_main.h bloom/src/build_bloom.c bloom/src/build_bloom.h bloom.o
 	gcc -Wpedantic -Wall -Wextra -o prog_build_bloom bloom/src/build_bloom_main.c bloom/src/build_bloom.c bloom.o murmurhash.o

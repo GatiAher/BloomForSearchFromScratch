@@ -1,3 +1,5 @@
+fadd_to_bloom: bloom/test/in_test.txt
+fcheck_in_bloom: bloom/test/out_test.txt
 
 ---
 Create Bloom filter with 60 bits and 3 hash functions
@@ -9,120 +11,202 @@ m = 64, k = 3
 hash_seeds = 28 10 6 
 array = 0 0 0 0 0 0 21 0 1c a ... [output truncated]
 0/64 bits set
+0 items added
 ---------------------------------
-
----
-Add words to Bloom filter
+test: bloom_add_with_warning
 >> added Absolutely
+test: bloom_add_with_warning
 >> added Abundance
+test: bloom_add_with_warning
 >> added Abundant
+test: bloom_add_with_warning
 >> added Accomplished
+test: bloom_add_with_warning
 >> added Achieve
+test: bloom_add_with_warning
 >> added Adventure
+test: bloom_add_with_warning
 >> added Affluent
+test: bloom_add_with_warning
 >> added Alive
+test: bloom_add_with_warning
 >> added Alluring
+test: bloom_add_with_warning
 >> added Always
+test: bloom_add_with_warning
 >> added Amazing
+test: bloom_add_with_warning
 >> added Astonishing
+test: bloom_add_with_warning
 >> added Astounding
+test: bloom_add_with_warning
 >> added Authoritative
+test: bloom_add_with_warning
 >> added Authority
+test: bloom_add_with_warning
 >> added Awe-inspiring
+test: bloom_add_with_warning
 >> added Awesome
-!! WARNING: all bits have already been set for Adorable
+test: bloom_add_with_warning
+>> added Adorable
+test: bloom_add_with_warning
 >> added Angelic
+test: bloom_add_with_warning
 >> added Amber
-*number of add warnings: 1
 
 ---------------------------------
 Bloom filter
 
 m = 64, k = 3
 hash_seeds = 28 10 6 
-array = a78fffff 867c8f3 0 0 0 0 21 0 1c a ... [output truncated]
-41/64 bits set
+array = 7ea3afe5 cbfb54bb 0 0 0 0 21 0 1c a ... [output truncated]
+42/64 bits set
+20 items added
 ---------------------------------
-
-Look up words that are really not in Bloom filter
-
->> might be in: Absolutely
->> might be in: Abundance
->> might be in: Abundant
->> might be in: Accomplished
->> might be in: Achieve
->> might be in: Adventure
->> might be in: Affluent
->> might be in: Alive
->> might be in: Alluring
->> might be in: Always
->> might be in: Amazing
->> might be in: Astonishing
->> might be in: Astounding
->> might be in: Authoritative
->> might be in: Authority
->> might be in: Awe-inspiring
->> might be in: Awesome
->> might be in: Adorable
->> might be in: Angelic
->> might be in: Amber
-
-Look up words that are really in Bloom filter
-
->> definitely not in: babble
->> definitely not in: back-logged
->> definitely not in: back-wood
->> definitely not in: back-woods
->> definitely not in: backache
->> definitely not in: backaches
->> definitely not in: backbite
->> definitely not in: backbiting
->> definitely not in: backward
->> definitely not in: backwardness
->> definitely not in: backwoods
->> definitely not in: bad
-!! might be in: badly
->> definitely not in: baffle
->> definitely not in: baffled
->> definitely not in: bafflement
-!! might be in: baffling
-!! might be in: bait
->> definitely not in: balk
->> definitely not in: banal
-!! might be in: bane
-!! might be in: banish
->> definitely not in: banishment
-!! might be in: bankrupt
->> definitely not in: barbarian
->> definitely not in: barbaric
-!! might be in: barbarically
->> definitely not in: barbarity
->> definitely not in: barbarous
-!! might be in: barbarously
-!! might be in: barren
->> definitely not in: baseless
->> definitely not in: bash
->> definitely not in: bashed
->> definitely not in: bashful
->> definitely not in: bashing
-!! might be in: battered
-!! might be in: battering
->> definitely not in: batty
->> definitely not in: bearish
->> definitely not in: beastly
->> definitely not in: bedlam
->> definitely not in: bedlamite
->> definitely not in: befoul
->> definitely not in: beg
-!! might be in: beggar
->> definitely not in: beggarly
->> definitely not in: begging
->> definitely not in: beguile
->> definitely not in: belabor
-**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 
+test: bloom_lookup, real positives
+>> TP: Absolutely
+test: bloom_lookup, real positives
+>> TP: Abundance
+test: bloom_lookup, real positives
+>> TP: Abundant
+test: bloom_lookup, real positives
+>> TP: Accomplished
+test: bloom_lookup, real positives
+>> TP: Achieve
+test: bloom_lookup, real positives
+>> TP: Adventure
+test: bloom_lookup, real positives
+>> TP: Affluent
+test: bloom_lookup, real positives
+>> TP: Alive
+test: bloom_lookup, real positives
+>> TP: Alluring
+test: bloom_lookup, real positives
+>> TP: Always
+test: bloom_lookup, real positives
+>> TP: Amazing
+test: bloom_lookup, real positives
+>> TP: Astonishing
+test: bloom_lookup, real positives
+>> TP: Astounding
+test: bloom_lookup, real positives
+>> TP: Authoritative
+test: bloom_lookup, real positives
+>> TP: Authority
+test: bloom_lookup, real positives
+>> TP: Awe-inspiring
+test: bloom_lookup, real positives
+>> TP: Awesome
+test: bloom_lookup, real positives
+>> TP: Adorable
+test: bloom_lookup, real positives
+>> TP: Angelic
+test: bloom_lookup, real positives
+>> TP: Amber
+test: bloom_lookup, real negatives
+>> TN: babble
+test: bloom_lookup, real negatives
+>> TN: back-logged
+test: bloom_lookup, real negatives
+>> TN: back-wood
+test: bloom_lookup, real negatives
+>> TN: back-woods
+test: bloom_lookup, real negatives
+>> TN: backache
+test: bloom_lookup, real negatives
+!! FP: backaches
+test: bloom_lookup, real negatives
+>> TN: backbite
+test: bloom_lookup, real negatives
+!! FP: backbiting
+test: bloom_lookup, real negatives
+>> TN: backward
+test: bloom_lookup, real negatives
+!! FP: backwardness
+test: bloom_lookup, real negatives
+>> TN: backwoods
+test: bloom_lookup, real negatives
+!! FP: bad
+test: bloom_lookup, real negatives
+>> TN: badly
+test: bloom_lookup, real negatives
+>> TN: baffle
+test: bloom_lookup, real negatives
+>> TN: baffled
+test: bloom_lookup, real negatives
+>> TN: bafflement
+test: bloom_lookup, real negatives
+>> TN: baffling
+test: bloom_lookup, real negatives
+>> TN: bait
+test: bloom_lookup, real negatives
+>> TN: balk
+test: bloom_lookup, real negatives
+>> TN: banal
+test: bloom_lookup, real negatives
+>> TN: bane
+test: bloom_lookup, real negatives
+>> TN: banish
+test: bloom_lookup, real negatives
+>> TN: banishment
+test: bloom_lookup, real negatives
+>> TN: bankrupt
+test: bloom_lookup, real negatives
+>> TN: barbarian
+test: bloom_lookup, real negatives
+!! FP: barbaric
+test: bloom_lookup, real negatives
+>> TN: barbarically
+test: bloom_lookup, real negatives
+!! FP: barbarity
+test: bloom_lookup, real negatives
+>> TN: barbarous
+test: bloom_lookup, real negatives
+>> TN: barbarously
+test: bloom_lookup, real negatives
+!! FP: barren
+test: bloom_lookup, real negatives
+>> TN: baseless
+test: bloom_lookup, real negatives
+>> TN: bash
+test: bloom_lookup, real negatives
+!! FP: bashed
+test: bloom_lookup, real negatives
+>> TN: bashful
+test: bloom_lookup, real negatives
+!! FP: bashing
+test: bloom_lookup, real negatives
+>> TN: battered
+test: bloom_lookup, real negatives
+!! FP: battering
+test: bloom_lookup, real negatives
+>> TN: batty
+test: bloom_lookup, real negatives
+>> TN: bearish
+test: bloom_lookup, real negatives
+>> TN: beastly
+test: bloom_lookup, real negatives
+>> TN: bedlam
+test: bloom_lookup, real negatives
+>> TN: bedlamite
+test: bloom_lookup, real negatives
+>> TN: befoul
+test: bloom_lookup, real negatives
+>> TN: beg
+test: bloom_lookup, real negatives
+!! FP: beggar
+test: bloom_lookup, real negatives
+!! FP: beggarly
+test: bloom_lookup, real negatives
+>> TN: begging
+test: bloom_lookup, real negatives
+>> TN: beguile
+test: bloom_lookup, real negatives
+!! FP: belabor
 
 ---
 Save Bloom filter
+
 Sucessfully saved Bloom filter to test_save_bloom.txt!
 ---
 Free Bloom filter
@@ -134,86 +218,152 @@ Bloom filter
 
 m = 64, k = 3
 hash_seeds = 28 10 6 
-array = a78fffff 867c8f3 0 0 0 0 1c701 0 0 0 ... [output truncated]
-41/64 bits set
+array = 7ea3afe5 cbfb54bb 0 0 0 0 1c701 0 0 0 ... [output truncated]
+42/64 bits set
+20 items added
 ---------------------------------
-
-Look up words that are really not in Bloom filter
-
->> might be in: Absolutely
->> might be in: Abundance
->> might be in: Abundant
->> might be in: Accomplished
->> might be in: Achieve
->> might be in: Adventure
->> might be in: Affluent
->> might be in: Alive
->> might be in: Alluring
->> might be in: Always
->> might be in: Amazing
->> might be in: Astonishing
->> might be in: Astounding
->> might be in: Authoritative
->> might be in: Authority
->> might be in: Awe-inspiring
->> might be in: Awesome
->> might be in: Adorable
->> might be in: Angelic
->> might be in: Amber
-
-Look up words that are really in Bloom filter
-
->> definitely not in: babble
->> definitely not in: back-logged
->> definitely not in: back-wood
->> definitely not in: back-woods
->> definitely not in: backache
->> definitely not in: backaches
->> definitely not in: backbite
->> definitely not in: backbiting
->> definitely not in: backward
->> definitely not in: backwardness
->> definitely not in: backwoods
->> definitely not in: bad
-!! might be in: badly
->> definitely not in: baffle
->> definitely not in: baffled
->> definitely not in: bafflement
-!! might be in: baffling
-!! might be in: bait
->> definitely not in: balk
->> definitely not in: banal
-!! might be in: bane
-!! might be in: banish
->> definitely not in: banishment
-!! might be in: bankrupt
->> definitely not in: barbarian
->> definitely not in: barbaric
-!! might be in: barbarically
->> definitely not in: barbarity
->> definitely not in: barbarous
-!! might be in: barbarously
-!! might be in: barren
->> definitely not in: baseless
->> definitely not in: bash
->> definitely not in: bashed
->> definitely not in: bashful
->> definitely not in: bashing
-!! might be in: battered
-!! might be in: battering
->> definitely not in: batty
->> definitely not in: bearish
->> definitely not in: beastly
->> definitely not in: bedlam
->> definitely not in: bedlamite
->> definitely not in: befoul
->> definitely not in: beg
-!! might be in: beggar
->> definitely not in: beggarly
->> definitely not in: begging
->> definitely not in: beguile
->> definitely not in: belabor
-**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 
+test: bloom_lookup, real positives
+>> TP: Absolutely
+test: bloom_lookup, real positives
+>> TP: Abundance
+test: bloom_lookup, real positives
+>> TP: Abundant
+test: bloom_lookup, real positives
+>> TP: Accomplished
+test: bloom_lookup, real positives
+>> TP: Achieve
+test: bloom_lookup, real positives
+>> TP: Adventure
+test: bloom_lookup, real positives
+>> TP: Affluent
+test: bloom_lookup, real positives
+>> TP: Alive
+test: bloom_lookup, real positives
+>> TP: Alluring
+test: bloom_lookup, real positives
+>> TP: Always
+test: bloom_lookup, real positives
+>> TP: Amazing
+test: bloom_lookup, real positives
+>> TP: Astonishing
+test: bloom_lookup, real positives
+>> TP: Astounding
+test: bloom_lookup, real positives
+>> TP: Authoritative
+test: bloom_lookup, real positives
+>> TP: Authority
+test: bloom_lookup, real positives
+>> TP: Awe-inspiring
+test: bloom_lookup, real positives
+>> TP: Awesome
+test: bloom_lookup, real positives
+>> TP: Adorable
+test: bloom_lookup, real positives
+>> TP: Angelic
+test: bloom_lookup, real positives
+>> TP: Amber
+test: bloom_lookup, real negatives
+>> TN: babble
+test: bloom_lookup, real negatives
+>> TN: back-logged
+test: bloom_lookup, real negatives
+>> TN: back-wood
+test: bloom_lookup, real negatives
+>> TN: back-woods
+test: bloom_lookup, real negatives
+>> TN: backache
+test: bloom_lookup, real negatives
+!! FP: backaches
+test: bloom_lookup, real negatives
+>> TN: backbite
+test: bloom_lookup, real negatives
+!! FP: backbiting
+test: bloom_lookup, real negatives
+>> TN: backward
+test: bloom_lookup, real negatives
+!! FP: backwardness
+test: bloom_lookup, real negatives
+>> TN: backwoods
+test: bloom_lookup, real negatives
+!! FP: bad
+test: bloom_lookup, real negatives
+>> TN: badly
+test: bloom_lookup, real negatives
+>> TN: baffle
+test: bloom_lookup, real negatives
+>> TN: baffled
+test: bloom_lookup, real negatives
+>> TN: bafflement
+test: bloom_lookup, real negatives
+>> TN: baffling
+test: bloom_lookup, real negatives
+>> TN: bait
+test: bloom_lookup, real negatives
+>> TN: balk
+test: bloom_lookup, real negatives
+>> TN: banal
+test: bloom_lookup, real negatives
+>> TN: bane
+test: bloom_lookup, real negatives
+>> TN: banish
+test: bloom_lookup, real negatives
+>> TN: banishment
+test: bloom_lookup, real negatives
+>> TN: bankrupt
+test: bloom_lookup, real negatives
+>> TN: barbarian
+test: bloom_lookup, real negatives
+!! FP: barbaric
+test: bloom_lookup, real negatives
+>> TN: barbarically
+test: bloom_lookup, real negatives
+!! FP: barbarity
+test: bloom_lookup, real negatives
+>> TN: barbarous
+test: bloom_lookup, real negatives
+>> TN: barbarously
+test: bloom_lookup, real negatives
+!! FP: barren
+test: bloom_lookup, real negatives
+>> TN: baseless
+test: bloom_lookup, real negatives
+>> TN: bash
+test: bloom_lookup, real negatives
+!! FP: bashed
+test: bloom_lookup, real negatives
+>> TN: bashful
+test: bloom_lookup, real negatives
+!! FP: bashing
+test: bloom_lookup, real negatives
+>> TN: battered
+test: bloom_lookup, real negatives
+!! FP: battering
+test: bloom_lookup, real negatives
+>> TN: batty
+test: bloom_lookup, real negatives
+>> TN: bearish
+test: bloom_lookup, real negatives
+>> TN: beastly
+test: bloom_lookup, real negatives
+>> TN: bedlam
+test: bloom_lookup, real negatives
+>> TN: bedlamite
+test: bloom_lookup, real negatives
+>> TN: befoul
+test: bloom_lookup, real negatives
+>> TN: beg
+test: bloom_lookup, real negatives
+!! FP: beggar
+test: bloom_lookup, real negatives
+!! FP: beggarly
+test: bloom_lookup, real negatives
+>> TN: begging
+test: bloom_lookup, real negatives
+>> TN: beguile
+test: bloom_lookup, real negatives
+!! FP: belabor
 
 ---
 Free loaded Bloom filter
+Bloom filter (orig): TP 20 | TN 37 | FP 13 | FN 0 | add warnings 0 
+Bloom filter (load): TP 20 | TN 37 | FP 13 | FN 0 | 

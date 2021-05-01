@@ -14,7 +14,11 @@ extern int opterr, optind;
 int main(int argc, char *argv[])
 {
     int opt;
-    options_t options = {0, NULL, NULL, 0, 0};
+
+    /* set default args */
+    char *def_in_test = "bloom/test/in_test.txt";
+    char *def_out_test = "bloom/test/out_test.txt";
+    options_t options = {0, NULL, NULL, 60, 3};
 
     // Initialize opterr to 0 to disable getopt from emiting a ?.
     opterr = 0;
@@ -23,7 +27,8 @@ int main(int argc, char *argv[])
         switch (opt)
         {
         case 'a':
-            if (!(options.add_to_bloom = fopen(optarg, "r")))
+            printf("fadd_to_bloom: %s\n", optarg);
+            if (!(options.fadd_to_bloom = fopen(optarg, "r")))
             {
                 perror(ERR_FOPEN_ADD_TO_BLOOM);
                 exit(EXIT_FAILURE);
@@ -32,7 +37,8 @@ int main(int argc, char *argv[])
             break;
 
         case 'c':
-            if (!(options.check_in_bloom = fopen(optarg, "r")))
+            printf("fcheck_in_bloom: %s\n", optarg);
+            if (!(options.fcheck_in_bloom = fopen(optarg, "r")))
             {
                 perror(ERR_FOPEN_CHECK_IN_BLOOM);
                 exit(EXIT_FAILURE);
@@ -41,11 +47,11 @@ int main(int argc, char *argv[])
             break;
 
         case 'm':
-            options.num_bits = atoi(optarg);
+            options.m = atoi(optarg);
             break;
 
         case 'k':
-            options.num_hash = atoi(optarg);
+            options.k = atoi(optarg);
             break;
 
         case 'v':
@@ -59,12 +65,37 @@ int main(int argc, char *argv[])
             break;
         }
 
+    /* open default files */
+    if (options.fadd_to_bloom == NULL)
+    {
+        printf("fadd_to_bloom: %s\n", def_in_test);
+        if (!(options.fadd_to_bloom = fopen(def_in_test, "r")))
+        {
+            perror(ERR_FOPEN_ADD_TO_BLOOM);
+            exit(EXIT_FAILURE);
+            /* NOTREACHED */
+        }
+    }
+    if (options.fcheck_in_bloom == NULL)
+    {
+        printf("fcheck_in_bloom: %s\n", def_out_test);
+        if (!(options.fcheck_in_bloom = fopen(def_out_test, "r")))
+        {
+            perror(ERR_FOPEN_CHECK_IN_BLOOM);
+            exit(EXIT_FAILURE);
+            /* NOTREACHED */
+        }
+    }
+
     if (test_bloom(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BLOOM);
         exit(EXIT_FAILURE);
         /* NOTREACHED */
     }
+
+    fclose(options.fadd_to_bloom);
+    fclose(options.fcheck_in_bloom);
 
     return EXIT_SUCCESS;
 }

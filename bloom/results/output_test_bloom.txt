@@ -1,13 +1,5 @@
-
----
-Create Bloom filter with 60 bits and 3 hash functions
-
----
-Add words to Bloom filter
-
-*number of add warnings: 1
-
-**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 
+fadd_to_bloom: bloom/test/in_test.txt
+fcheck_in_bloom: bloom/test/out_test.txt
 
 Sucessfully saved Bloom filter to test_save_bloom.txt!
 ---
@@ -18,8 +10,9 @@ Bloom filter
 
 m = 64, k = 3
 hash_seeds = 28 10 6 
-array = a78fffff 867c8f3 0 0 0 0 1c701 0 0 0 ... [output truncated]
-41/64 bits set
+array = 7ea3afe5 cbfb54bb 0 0 0 0 1c701 0 0 0 ... [output truncated]
+42/64 bits set
+20 items added
 ---------------------------------
-
-**results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 
+Bloom filter (orig): TP 20 | TN 37 | FP 13 | FN 0 | add warnings 0 
+Bloom filter (load): TP 20 | TN 37 | FP 13 | FN 0 | 
