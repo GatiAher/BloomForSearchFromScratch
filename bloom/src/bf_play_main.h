@@ -24,13 +24,20 @@
 #define ERR_RUN_BLOOM "bf_play failed"
 #define DEFAULT_PROGNAME "bf_play"
 
+enum modes
+{
+    M_ALL = 0,
+    M_ALL_IN,
+    M_SEL,
+    M_SEL_IN
+};
+
 typedef struct
 {
     int verbose;
     FILE *fread_input_from;
     char *loc_load_bloom;
-    int mode_display_selected;
-    int mode_select_in;
+    enum modes mode;
 } options_t;
 
 #include "bf_play.h"

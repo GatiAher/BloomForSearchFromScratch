@@ -7,6 +7,9 @@
 
 #include "bf_play.h"
 
+/* for coloring text */
+#define PRINTC(c, f, s) printf("\033[%dm" f "\033[0m", 30 + c, s)
+
 int bf_play(options_t *options)
 {
     if (!options)
@@ -44,11 +47,21 @@ int bf_play(options_t *options)
             isIn = bloom_lookup(filter, token);
             if (isIn)
             {
-                printf("in-%s ", token);
+                if (options->mode == M_ALL_IN)
+                    PRINTC (4, "%s ", token);
+                else if (options->mode == M_ALL)
+                    printf("%s ", token);
+                else if (options->mode == M_SEL_IN)
+                    printf("%s\n", token);
             }
             else
             {
-                printf("out-%s ", token);
+                if (options->mode == M_ALL)
+                    PRINTC (1, "%s ", token);
+                else if (options->mode == M_ALL_IN)
+                    printf("%s ", token);
+                else if (options->mode == M_SEL)
+                    printf("%s\n", token);
             }
         }
         printf("\n");
