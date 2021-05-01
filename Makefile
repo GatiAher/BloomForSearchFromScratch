@@ -1,5 +1,3 @@
-all: test_murmurhash test_bloom run_bitslicedsig
-
 # murmurhash
 murmurhash.o: deps/murmurhash/murmurhash.c deps/murmurhash/murmurhash.h
 	gcc -c deps/murmurhash/murmurhash.c
@@ -14,15 +12,21 @@ bloom.o: bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
 test_bloom: bloom/src/test_bloom_main.c bloom/src/test_bloom_main.h bloom/src/test_bloom.c bloom/src/test_bloom.h bloom.o
 	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/src/test_bloom_main.c bloom/src/test_bloom.c bloom.o murmurhash.o
 
-run_build_bloom: bloom/src/run_build_bloom_main.c bloom/src/run_build_bloom_main.h bloom/src/run_build_bloom.c bloom/src/run_build_bloom.h bloom.o
-	gcc -Wpedantic -Wall -Wextra -o run_build_bloom bloom/src/run_build_bloom_main.c bloom/src/run_build_bloom.c bloom.o murmurhash.o
+run_test_bloom: test_bloom
+	./test_bloom -a bloom/data/in_test.txt -c bloom/data/out_test.txt -m 60 -k 3
+
+prog_build_bloom: bloom/src/build_bloom_main.c bloom/src/build_bloom_main.h bloom/src/build_bloom.c bloom/src/build_bloom.h bloom.o
+	gcc -Wpedantic -Wall -Wextra -o prog_build_bloom bloom/src/build_bloom_main.c bloom/src/build_bloom.c bloom.o murmurhash.o
+
+run_build_bloom: prog_build_bloom
+	./prog_build_bloom
 
 # bitslicedsig
-run_bitslicedsig: bitslicedsig/src/main.c bitslicedsig/src/main.h bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/try_bitslicedsig.h bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h murmurhash.o
-	gcc -Wpedantic -Wall -Wextra -o run_bitslicedsig bitslicedsig/src/main.c bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/bitslicedsig.c murmurhash.o
+prog_bitslicedsig: bitslicedsig/src/main.c bitslicedsig/src/main.h bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/try_bitslicedsig.h bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h murmurhash.o
+	gcc -Wpedantic -Wall -Wextra -o prog_bitslicedsig bitslicedsig/src/main.c bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/bitslicedsig.c murmurhash.o
 
 clean:
-	rm *.o murmurhash.o test_* run_*  
+	rm *.o murmurhash.o test_* prog_*
 
 
 

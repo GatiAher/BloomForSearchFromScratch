@@ -5,7 +5,7 @@
  * Date: April 30, 2021
  */
 
-#include "run_build_bloom.h"
+#include "build_bloom.h"
 
 int run_build_bloom(options_t *options)
 {

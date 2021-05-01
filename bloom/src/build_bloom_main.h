@@ -33,7 +33,7 @@ typedef struct
     uint32_t num_hash;
 } options_t;
 
-#include "run_build_bloom.h"
+#include "build_bloom.h"
 
 /* print program details */
 void usage(char *progname);

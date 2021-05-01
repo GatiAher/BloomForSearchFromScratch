@@ -5,10 +5,8 @@
  * Date: April 30, 2021
  */
 
-/* includes */
-#include "run_build_bloom_main.h"
+#include "build_bloom_main.h"
 
-/* external declarations */
 extern int errno;
 extern char *optarg;
 extern int opterr, optind;
