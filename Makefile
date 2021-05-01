@@ -18,8 +18,8 @@ run_test_bloom: test_bloom
 prog_build_bloom: bloom/src/build_bloom_main.c bloom/src/build_bloom_main.h bloom/src/build_bloom.c bloom/src/build_bloom.h bloom.o
 	gcc -Wpedantic -Wall -Wextra -o prog_build_bloom bloom/src/build_bloom_main.c bloom/src/build_bloom.c bloom.o murmurhash.o
 
-run_build_bloom: prog_build_bloom
-	./prog_build_bloom
+prog_ibf: bloom/src/ibf_main.c bloom/src/ibf_main.h bloom/src/ibf.c bloom/src/ibf.h bloom.o
+	gcc -Wpedantic -Wall -Wextra -o prog_ibf bloom/src/ibf_main.c bloom/src/ibf.c bloom.o murmurhash.o
 
 # bitslicedsig
 prog_bitslicedsig: bitslicedsig/src/main.c bitslicedsig/src/main.h bitslicedsig/src/try_bitslicedsig.c bitslicedsig/src/try_bitslicedsig.h bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h murmurhash.o

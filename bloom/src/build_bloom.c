@@ -35,6 +35,9 @@ int run_build_bloom(options_t *options)
     /* add terms to Bloom filter */
     const uint32_t bufferLength = 1023; // assumes no term exceeds length of 1023
     char buffer[bufferLength];
+    char *token;
+    char *rest;
+
     FILE *f_add = fopen(options->add_to_bloom, "r");
     if (!f_add)
     {
@@ -42,9 +45,16 @@ int run_build_bloom(options_t *options)
         exit(EXIT_FAILURE);
         /* NOTREACHED */
     }
+
     while (fgets(buffer, bufferLength, f_add))
     {
-        bloom_add(filter, buffer);
+        rest = buffer;
+        while ((token = strtok_r(rest, " .,?", &rest)))
+        {
+            if (token[strlen(token)-1] == '\n')
+                token[strlen(token)-1] = '\0';
+            bloom_add(filter, token);
+        }
     }
     fclose(f_add);
 
