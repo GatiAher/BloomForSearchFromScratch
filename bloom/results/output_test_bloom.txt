@@ -18,7 +18,7 @@ Bloom filter
 
  m = 64, k = 3
  hash_seeds = 28 10 6 
- array = a78fffff 867c8f3 0 0 0 0 21 0 1c a ... [output truncated]
+ array = a78fffff 867c8f3 0 0 0 0 1c701 0 0 0 ... [output truncated]
 ---------------------------------
 
 **results of lookup test: TP 20 | FP 12 | FN 0 | TN 38 

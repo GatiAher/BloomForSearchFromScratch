@@ -137,7 +137,7 @@ u_int32_t bloom_save(bloom_t *filter, const char *filename)
         status_code = 1;
 
     // array
-    if (fwrite(filter->array, sizeof(u_int32_t), filter->m, outfile) == 0)
+    if (fwrite(filter->array, sizeof(u_int32_t), filter->m >> WORD_POW, outfile) == 0)
         status_code = 1;
 
     fclose(outfile);
@@ -165,7 +165,7 @@ bloom_t *bloom_load(const char *filename)
     bloom_t *filter = bloom_create(m, k);
 
     fread(filter->hash_seeds, sizeof(u_int32_t), filter->k, infile);
-    fread(filter->array, sizeof(u_int32_t), filter->m, infile);
+    fread(filter->array, sizeof(u_int32_t), filter->m >> WORD_POW, infile);
 
     fclose(infile);
     return filter;
