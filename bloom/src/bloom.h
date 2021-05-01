@@ -7,6 +7,9 @@
 #include <stddef.h>
 #include <stdbool.h>
 
+#define ERR_FOPEN_LOAD_BLOOM_FROM "Error while opening the file: fopen(file_load_bloom_from, r)"
+#define ERR_FOPEN_SAVE_BLOOM_TO "Error while opening the file: fopen(file_save_bloom_to, r)"
+
 #include "../../deps/murmurhash/murmurhash.h"
 
 typedef struct

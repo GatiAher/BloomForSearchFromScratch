@@ -1,13 +1,15 @@
 /**
- * Create and save a Bloom Filter.
+ * Create or modify a Bloom filter
+ * 
+ * Load a Bloom filter from a file or create a new one. Add new terms to it and save it.
  * 
  * Author: Gati Aher
  * Date: April 30, 2021
  */
 
-#include "build_bloom.h"
+#include "bf_editor.h"
 
-int run_build_bloom(options_t *options)
+int bf_editor(options_t *options)
 {
     if (!options)
     {
@@ -15,20 +17,31 @@ int run_build_bloom(options_t *options)
         return EXIT_FAILURE;
     }
 
-    if (!options->add_to_bloom || !options->save_bloom)
+    if (!options->loc_save_bloom)
     {
         errno = ENOENT;
         return EXIT_FAILURE;
     }
 
-    if (!options->num_bits || !options->num_hash)
+    if (!options->loc_load_bloom && (!options->m || !options->k))
     {
         errno = EINVAL;
         return EXIT_FAILURE;
     }
 
-    /* create Bloom filter */
-    bloom_t *filter = bloom_create(options->num_bits, options->num_hash);
+    bloom_t *filter;
+
+    if (options->loc_load_bloom)
+    {
+        /* load Bloom filter */
+        filter = bloom_load(options->loc_load_bloom);
+    }
+    else
+    {
+        /* create Bloom filter */
+        filter = bloom_create(options->m, options->k);
+    }
+
     if (options->verbose)
         bloom_print(filter);
 
@@ -38,33 +51,24 @@ int run_build_bloom(options_t *options)
     char *token;
     char *rest;
 
-    FILE *f_add = fopen(options->add_to_bloom, "r");
-    if (!f_add)
-    {
-        perror("could not open file of words to add to Bloom\n");
-        exit(EXIT_FAILURE);
-        /* NOTREACHED */
-    }
-
-    while (fgets(buffer, bufferLength, f_add))
+    while (fgets(buffer, bufferLength, options->fread_input_from))
     {
         rest = buffer;
         while ((token = strtok_r(rest, " .,?", &rest)))
         {
-            if (token[strlen(token)-1] == '\n')
-                token[strlen(token)-1] = '\0';
+            if (token[strlen(token) - 1] == '\n')
+                token[strlen(token) - 1] = '\0';
             bloom_add(filter, token);
         }
     }
-    fclose(f_add);
 
     if (options->verbose)
         bloom_print(filter);
 
     /* save Bloom filter */
-    uint32_t save_status = bloom_save(filter, options->save_bloom);
+    uint32_t save_status = bloom_save(filter, options->loc_save_bloom);
     if (save_status == 0)
-        printf("Sucessfully saved Bloom filter to %s!\n", options->save_bloom);
+        printf("Sucessfully saved Bloom filter to %s!\n", options->loc_save_bloom);
     else
         perror("Error saving Bloom filter!\n");
 

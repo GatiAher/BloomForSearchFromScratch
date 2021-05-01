@@ -5,16 +5,16 @@
  * Date: April 30, 2021
  */
 
-#ifndef RUN_BUILD_BLOOM_H
-#define RUN_BUILD_BLOOM_H
+#ifndef BF_PLAY_H
+#define BF_PLAY_H
 
-#include "ibf_main.h"
+#include "bf_play_main.h"
 #include "bloom.h"
 
 /* Use a Bloom filter to process input
 
 print output to standard output.
  */
-int process_input(options_t *options);
+int bf_play(options_t *options);
 
 #endif

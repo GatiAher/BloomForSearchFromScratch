@@ -5,9 +5,9 @@
  * Date: April 30, 2021
  */
 
-#include "ibf.h"
+#include "bf_play.h"
 
-int process_input(options_t *options)
+int bf_play(options_t *options)
 {
     if (!options)
     {
@@ -15,14 +15,14 @@ int process_input(options_t *options)
         return EXIT_FAILURE;
     }
 
-    if (!options->source)
+    if (!options->loc_load_bloom)
     {
         errno = ENOENT;
         return EXIT_FAILURE;
     }
 
     /* load Bloom filter */
-    bloom_t *filter = bloom_load(options->source);
+    bloom_t *filter = bloom_load(options->loc_load_bloom);
 
     if (options->verbose)
         bloom_print(filter);
@@ -32,9 +32,9 @@ int process_input(options_t *options)
     char buffer[bufferLength];
     char *token;
     char *rest;
-    bool isIn;
 
-    while (fgets(buffer, bufferLength, stdin))
+    bool isIn;
+    while (fgets(buffer, bufferLength, options->fread_input_from))
     {
         rest = buffer;
         while ((token = strtok_r(rest, " .,?", &rest)))
@@ -51,6 +51,7 @@ int process_input(options_t *options)
                 printf("out-%s ", token);
             }
         }
+        printf("\n");
     }
 
     return EXIT_SUCCESS;

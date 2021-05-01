@@ -1,11 +1,11 @@
 /**
- * Create and save a Bloom Filter.
+ * Interactive Bloom Filter.
  * 
  * Author: Gati Aher
  * Date: April 30, 2021
  */
 
-#include "build_bloom_main.h"
+#include "bf_play_main.h"
 
 extern int errno;
 extern char *optarg;
@@ -14,7 +14,7 @@ extern int opterr, optind;
 int main(int argc, char *argv[])
 {
     int opt;
-    options_t options = {0, "/usr/share/dict/words", "save_bloom_spelling_words.txt", 1472280, 10};
+    options_t options = {0, stdin, "bf_saved.txt", 0, 0};
 
     // Initialize opterr to 0 to disable getopt from emiting a ?.
     opterr = 0;
@@ -22,20 +22,29 @@ int main(int argc, char *argv[])
     while ((opt = getopt(argc, argv, OPTSTR)) != EOF)
         switch (opt)
         {
-        case 'a':
-            options.add_to_bloom = optarg;
+
+        case 'i':
+        {
+            if (!(options.fread_input_from = fopen(optarg, "r")))
+            {
+                perror(ERR_FOPEN_READ_INPUT_FROM);
+                exit(EXIT_FAILURE);
+                /* NOTREACHED */
+            }
+            dup2(fileno(options.fread_input_from), STDIN_FILENO);
+            break;
+        }
+
+        case 'f':
+            options.loc_load_bloom = optarg;
             break;
 
-        case 'o':
-            options.save_bloom = optarg;
+        case 's':
+            options.mode_display_selected = 1;
             break;
 
-        case 'm':
-            options.num_bits = atoi(optarg);
-            break;
-
-        case 'k':
-            options.num_hash = atoi(optarg);
+        case 'x':
+            options.mode_select_in = 1;
             break;
 
         case 'v':
@@ -49,7 +58,7 @@ int main(int argc, char *argv[])
             break;
         }
 
-    if (run_build_bloom(&options) != EXIT_SUCCESS)
+    if (bf_play(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BLOOM);
         exit(EXIT_FAILURE);

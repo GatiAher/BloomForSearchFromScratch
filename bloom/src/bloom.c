@@ -140,7 +140,7 @@ u_int32_t bloom_save(bloom_t *filter, const char *filename)
     outfile = fopen(filename, "w");
     if (outfile == NULL)
     {
-        printf("\nUnable to open file %s", filename);
+        perror(ERR_FOPEN_SAVE_BLOOM_TO);
         exit(1);
     }
 
@@ -178,7 +178,7 @@ bloom_t *bloom_load(const char *filename)
     infile = fopen(filename, "r");
     if (infile == NULL)
     {
-        printf("\nUnable to open file %s", filename);
+        perror(ERR_FOPEN_LOAD_BLOOM_FROM);
         exit(1);
     }
 
