@@ -155,6 +155,10 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
             {
                 word_mask &= bitslicedsig->bit_matrix[r][b];
             }
+            if (word_mask == 0) {
+                // early termination of loop if no documents match
+                continue;
+            }
         }
 
         /* decode word_mask */
