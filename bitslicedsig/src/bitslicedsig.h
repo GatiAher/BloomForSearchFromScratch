@@ -11,10 +11,11 @@
 
 typedef struct
 {
-    int num_blocks;
-    int num_sig_bits;
+    u_int32_t num_blocks;
+    u_int32_t added_d;
+    u_int32_t m;
     u_int32_t **bit_matrix;
-    int num_hash_func;
+    u_int32_t k;
     u_int32_t *hash_seeds;
 } bitslicedsig_t;
 
@@ -28,10 +29,10 @@ typedef struct
  * lookup performance time. 
  * 
  * max_doc_capacity: maximum number of documents to be stored in table
- * num_sig_bits: number of bits to be used by each document signatures
- * num_hash_funcs: number of hash functions
+ * m: number of bits to be used by each document signatures
+ * k: number of hash functions
  */
-bitslicedsig_t *bitslicedsig_create(int max_doc_capacity, int num_sig_bits, int num_hash_funcs);
+bitslicedsig_t *bitslicedsig_create(int max_doc_capacity, int m, int k);
 
 /** Frees a bit-sliced signature 
  * 
