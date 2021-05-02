@@ -89,22 +89,31 @@ void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, int index, char *filenam
         return;
     }
 
-    /* assumes no term exceeds length */
-    char term[BUFF_SIZE];
-    /* read each term in document */
-    while (fscanf(f, " %127s", term) == 1)
+    const int bufferLength = 1023; // assumes no term exceeds length of 1023
+    char buffer[bufferLength];
+    char *token;
+    char *rest;
+
+    while (fgets(buffer, bufferLength, f))
     {
-        /* hash each term with each hash function */
-        for (h = 0; h < bitslicedsig->num_hash_func; h++)
+        rest = buffer;
+        while ((token = strtok_r(rest, " !\"#$%%&()*+,-./:;<=>?@[\\]^_`{|}~", &rest)))
         {
-            // hash the term to generate a hash
-            hash = murmurhash(term, (u_int32_t)strlen(term), bitslicedsig->hash_seeds[h]);
-            // decide what row to set by taking hash % number of bits
-            hash = mod_pow_2(hash, bitslicedsig->num_sig_bits);
-            // set the bit in array by changing specific bit of specific word
-            bit_matrix[hash][blockIndex] |= docWord;
+            if (token[strlen(token) - 1] == '\n')
+                token[strlen(token) - 1] = '\0';
+            /* hash each term with each hash function */
+            for (h = 0; h < bitslicedsig->num_hash_func; h++)
+            {
+                // hash the token to generate a hash
+                hash = murmurhash(token, (u_int32_t)strlen(token), bitslicedsig->hash_seeds[h]);
+                // decide what row to set by taking hash % number of bits
+                hash = mod_pow_2(hash, bitslicedsig->num_sig_bits);
+                // set the bit in array by changing specific bit of specific word
+                bit_matrix[hash][blockIndex] |= docWord;
+            }
         }
     }
+
     fclose(f);
 }
 
@@ -118,17 +127,17 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
         /* NOTREACHED */
     }
 
-    const int bufferLength = 1023; // assumes no term exceeds length of 1023
-    char buffer[bufferLength];
-    char *token;
-    char *rest;
-
     int h;
     u_int32_t hash;
 
     /* flag which row indicies show up in query */
     int num_query_blocks = (bitslicedsig->num_sig_bits + WORD_SIZE - 1) / WORD_SIZE;
     u_int32_t *querysig = calloc(num_query_blocks, sizeof(u_int32_t));
+
+    const int bufferLength = 1023; // assumes no term exceeds length of 1023
+    char buffer[bufferLength];
+    char *token;
+    char *rest;
 
     while (fgets(buffer, bufferLength, fquery))
     {
