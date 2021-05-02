@@ -18,7 +18,26 @@ u_int32_t mod_pow_2(u_int32_t a, u_int32_t b)
     return a & (b - 1);
 }
 
-bitslicedsig_t *bitslicedsig_create(u_int32_t min_doc_capacity, u_int32_t m, u_int32_t k)
+/** Returns power of 2 larger than n
+ * 
+ * Operates in log(log(n)) bit shifts 
+ */
+u_int32_t get_next_pow_2(u_int32_t n)
+{
+    n--;
+    // Divide by 2^k for consecutive doublings of k up to 32, and then OR the results.
+    n |= n >> 1;
+    n |= n >> 2;
+    n |= n >> 4;
+    n |= n >> 8;
+    n |= n >> 16;
+    n++;
+    // The result is a number of 1 bits equal to the number of bits in the original number, plus 1.
+    // That's the next highest power of 2.
+    return n;
+}
+
+bitslicedsig_t *bitslicedsig_create(u_int32_t m, u_int32_t k, u_int32_t min_doc_capacity)
 {
     u_int32_t i;
     bitslicedsig_t *bitslicedsig = malloc(sizeof(bitslicedsig_t));
@@ -26,9 +45,9 @@ bitslicedsig_t *bitslicedsig_create(u_int32_t min_doc_capacity, u_int32_t m, u_i
     bitslicedsig->added_d = 0;
     bitslicedsig->num_blocks = (min_doc_capacity + WORD_SIZE - 1) / WORD_SIZE;
 
-    bitslicedsig->m = m;
-    bitslicedsig->bit_matrix = (u_int32_t **)malloc(m * sizeof(u_int32_t *));
-    for (i = 0; i < m; i++)
+    bitslicedsig->m = get_next_pow_2(m);
+    bitslicedsig->bit_matrix = (u_int32_t **)malloc(bitslicedsig->m * sizeof(u_int32_t *));
+    for (i = 0; i < bitslicedsig->m; i++)
         bitslicedsig->bit_matrix[i] = calloc(bitslicedsig->num_blocks, sizeof(u_int32_t));
 
     bitslicedsig->k = k;
@@ -135,7 +154,7 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
                 // decide what row to set by taking hash % number of bits
                 hash = mod_pow_2(hash, bitslicedsig->m);
                 // set the bit in array by changing specific bit of specific word
-                querysig[hash >> WORD_POW] |= 1ULL << hash;
+                querysig[hash >> WORD_POW] |= (1ULL << mod_pow_2(hash, WORD_SIZE));
             }
         }
     }
@@ -150,12 +169,14 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
         word_mask = -1;
         for (r = 0; r < bitslicedsig->m; r++)
         {
-            isSet = querysig[r >> WORD_POW] & (1ULL << mod_pow_2(r, bitslicedsig->m));
+            isSet = querysig[r >> WORD_POW] & (1ULL << mod_pow_2(r, WORD_SIZE));
             if (isSet)
             {
                 word_mask &= bitslicedsig->bit_matrix[r][b];
             }
-            if (word_mask == 0) {
+
+            if (word_mask == 0)
+            {
                 // early termination of loop if no documents match
                 continue;
             }
@@ -169,6 +190,8 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
                 printf("doc %d \n", c);
         }
     }
+
+    free(querysig);
 }
 
 void bitslicesig_print(bitslicedsig_t *bitslicedsig)

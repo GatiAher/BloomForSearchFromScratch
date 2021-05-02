@@ -1,4 +1,4 @@
 Added doc 0: bitslicedsig/test/corpus/doc0.txt
 Added doc 1: bitslicedsig/test/corpus/doc1.txt
 Added doc 2: bitslicedsig/test/corpus/doc2.txt
-doc 2 
+doc 0 
