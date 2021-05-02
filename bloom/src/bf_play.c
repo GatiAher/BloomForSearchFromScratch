@@ -47,20 +47,20 @@ int bf_play(options_t *options)
             isIn = bloom_lookup(filter, token);
             if (isIn)
             {
-                if (options->mode == M_ALL_IN)
-                    PRINTC (4, "%s ", token);
-                else if (options->mode == M_ALL)
+                if (options->mode == (M_DEF | M_IN))
+                    PRINTC(4, "%s ", token);
+                else if (options->mode == (M_DEF))
                     printf("%s ", token);
-                else if (options->mode == M_SEL_IN)
+                else if (options->mode == (M_SEL | M_IN))
                     printf("%s\n", token);
             }
             else
             {
-                if (options->mode == M_ALL)
-                    PRINTC (1, "%s ", token);
-                else if (options->mode == M_ALL_IN)
+                if (options->mode == (M_DEF))
+                    PRINTC(1, "%s ", token);
+                else if (options->mode == (M_DEF | M_IN))
                     printf("%s ", token);
-                else if (options->mode == M_SEL)
+                else if (options->mode == (M_SEL))
                     printf("%s\n", token);
             }
         }

@@ -26,10 +26,9 @@
 
 enum modes
 {
-    M_ALL = 0,
-    M_ALL_IN,
-    M_SEL,
-    M_SEL_IN
+    M_DEF = 0,
+    M_SEL = 1,
+    M_IN = 2
 };
 
 typedef struct

@@ -14,7 +14,7 @@ extern int opterr, optind;
 int main(int argc, char *argv[])
 {
     int opt;
-    options_t options = {0, stdin, "bf_saved.txt", M_ALL};
+    options_t options = {0, stdin, "bf_saved.txt", M_DEF};
 
     // Initialize opterr to 0 to disable getopt from emiting a ?.
     opterr = 0;
@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
             break;
 
         case 'x':
-            options.mode |= M_ALL_IN;
+            options.mode |= M_IN;
             break;
 
         case 'v':
