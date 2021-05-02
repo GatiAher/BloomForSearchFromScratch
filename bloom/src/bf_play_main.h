@@ -36,7 +36,7 @@ typedef struct
     int verbose;
     FILE *fread_input_from;
     char *loc_load_bloom;
-    enum modes mode;
+    int mode;
 } options_t;
 
 #include "bf_play.h"
