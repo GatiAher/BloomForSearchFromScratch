@@ -55,7 +55,7 @@ int main(int argc, char *argv[])
             break;
 
         case 'v':
-            options.verbose += 1;
+            options.verbose = 1;
             break;
 
         case 'h':
