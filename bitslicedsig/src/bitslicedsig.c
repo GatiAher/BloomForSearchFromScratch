@@ -18,13 +18,13 @@ u_int32_t mod_pow_2(u_int32_t a, u_int32_t b)
     return a & (b - 1);
 }
 
-bitslicedsig_t *bitslicedsig_create(u_int32_t max_doc_capacity, u_int32_t m, u_int32_t k)
+bitslicedsig_t *bitslicedsig_create(u_int32_t min_doc_capacity, u_int32_t m, u_int32_t k)
 {
     u_int32_t i;
     bitslicedsig_t *bitslicedsig = malloc(sizeof(bitslicedsig_t));
 
     bitslicedsig->added_d = 0;
-    bitslicedsig->num_blocks = (max_doc_capacity + WORD_SIZE - 1) / WORD_SIZE;
+    bitslicedsig->num_blocks = (min_doc_capacity + WORD_SIZE - 1) / WORD_SIZE;
 
     bitslicedsig->m = m;
     bitslicedsig->bit_matrix = (u_int32_t **)malloc(m * sizeof(u_int32_t *));

@@ -30,7 +30,7 @@ int test_bitslicedsig(options_t *options)
 
     if (options->verbose)
         printf("\n ------ \n Create Bit-Sliced Signature with %d signature bits, %d hash functions, and can store atleast of %d documents \n", options->m, options->k, options->d);
-    bitslicedsig_t *bss = bitslicedsig_create(5, 64, 5);
+    bitslicedsig_t *bss = bitslicedsig_create(options->m, options->k, options->d);
     if (options->verbose)
         bitslicesig_print(bss);
 

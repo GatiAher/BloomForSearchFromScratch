@@ -28,11 +28,11 @@ typedef struct
  * takes up space, and the greater number of hash functions leads to slower insertion and 
  * lookup performance time. 
  * 
- * max_doc_capacity: maximum number of documents to be stored in table
  * m: number of bits to be used by each document signatures
  * k: number of hash functions
+ * min_doc_capacity: bit matrix's lower bound on document storing capacity
  */
-bitslicedsig_t *bitslicedsig_create(u_int32_t max_doc_capacity, u_int32_t m, u_int32_t k);
+bitslicedsig_t *bitslicedsig_create(u_int32_t m, u_int32_t k, u_int32_t min_doc_capacity);
 
 /** Frees a bit-sliced signature 
  * 
