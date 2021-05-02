@@ -108,9 +108,20 @@ void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, int index, char *filenam
     fclose(f);
 }
 
-void bitslicedsig_query(bitslicedsig_t *bitslicedsig, const char *query)
+void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
 {
-    printf("query: %s \n", query);
+    /* check that stream is not a NULL pointer */
+    if (!fquery)
+    {
+        perror("Error: could not open file\n");
+        exit(EXIT_FAILURE);
+        /* NOTREACHED */
+    }
+
+    const int bufferLength = 1023; // assumes no term exceeds length of 1023
+    char buffer[bufferLength];
+    char *token;
+    char *rest;
 
     int h;
     u_int32_t hash;
@@ -119,31 +130,28 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, const char *query)
     int num_query_blocks = (bitslicedsig->num_sig_bits + WORD_SIZE - 1) / WORD_SIZE;
     u_int32_t *querysig = calloc(num_query_blocks, sizeof(u_int32_t));
 
-    const char delim[2] = " ";
-    char *term;
-    char q[BUFF_SIZE];
+    while (fgets(buffer, bufferLength, fquery))
+    {
+        rest = buffer;
+        while ((token = strtok_r(rest, " !\"#$%%&()*+,-./:;<=>?@[\\]^_`{|}~", &rest)))
+        {
+            if (token[strlen(token) - 1] == '\n')
+                token[strlen(token) - 1] = '\0';
+            /* hash each term with each hash function */
+            for (h = 0; h < bitslicedsig->num_hash_func; h++)
+            {
+                // hash the token to generate a hash
+                hash = murmurhash(token, (u_int32_t)strlen(token), bitslicedsig->hash_seeds[h]);
+                // decide what row to set by taking hash % number of bits
+                hash = mod_pow_2(hash, bitslicedsig->num_sig_bits);
+                // set the bit in array by changing specific bit of specific word
+                querysig[hash >> WORD_POW] |= 1ULL << hash;
+            }
+        }
+    }
 
     int b, r, c;
     bool isSet;
-
-    /* get the first token */
-    strcpy(q, query);
-    term = strtok(q, delim);
-    /* walk through other tokens */
-    while (term != NULL)
-    {
-        /* hash each term with each hash function */
-        for (h = 0; h < bitslicedsig->num_hash_func; h++)
-        {
-            // hash the term to generate a hash
-            hash = murmurhash(term, (u_int32_t)strlen(term), bitslicedsig->hash_seeds[h]);
-            // decide what row to set by taking hash % number of bits
-            hash = mod_pow_2(hash, bitslicedsig->num_sig_bits);
-            // set the bit in array by changing specific bit of specific word
-            querysig[hash >> WORD_POW] |= 1ULL << hash;
-        }
-        term = strtok(NULL, delim);
-    }
 
     /* find intersecting documents */
     u_int32_t word_mask;

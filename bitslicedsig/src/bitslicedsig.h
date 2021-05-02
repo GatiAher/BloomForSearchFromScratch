@@ -47,14 +47,14 @@ void bitslicedsig_free(bitslicedsig_t *bitslicedsig);
  */
 void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, int index, char *filename);
 
-/** Queries if an item is in the bloom filter
+/** Queries if an item is in the bit-sliced signature
  * 
  * bitslicedsig: bit-sliced signature
- * query: string to check for in bloom filter
+ * query: file pointer with string to check for in bit-sliced signature
  * 
  * Returns list of document indicies that match the query
  */
-void bitslicedsig_query(bitslicedsig_t *bitslicedsig, const char *query);
+void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery);
 
 /* Print bitslicesig bit matrix */
 void bitslicesig_print(bitslicedsig_t *bitslicedsig);
