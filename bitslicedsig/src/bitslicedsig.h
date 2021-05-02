@@ -32,7 +32,7 @@ typedef struct
  * m: number of bits to be used by each document signatures
  * k: number of hash functions
  */
-bitslicedsig_t *bitslicedsig_create(int max_doc_capacity, int m, int k);
+bitslicedsig_t *bitslicedsig_create(u_int32_t max_doc_capacity, u_int32_t m, u_int32_t k);
 
 /** Frees a bit-sliced signature 
  * 
@@ -46,7 +46,7 @@ void bitslicedsig_free(bitslicedsig_t *bitslicedsig);
  * index: index associated with document
  * filename: path to file with document
  */
-void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, int index, char *filename);
+void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *filename);
 
 /** Queries if an item is in the bit-sliced signature
  * 

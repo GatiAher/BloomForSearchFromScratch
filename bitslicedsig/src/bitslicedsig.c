@@ -6,31 +6,21 @@
 
 /* Helper Functions */
 
-/* print an array in hexadecimal */
-void print_array_hex(int size, u_int8_t *array)
-{
-    for (int i = 0; i < size; i++)
-    {
-        int x = array[i];
-        printf("%x ", x);
-    }
-}
-
 /**
  * Returns a mod b
  * 
  * b must be a power of 2 
  */
-int mod_pow_2(int a, int b)
+u_int32_t mod_pow_2(u_int32_t a, u_int32_t b)
 {
     // if b is 2^n
     // a mod b = last n digits of a
     return a & (b - 1);
 }
 
-bitslicedsig_t *bitslicedsig_create(int max_doc_capacity, int m, int k)
+bitslicedsig_t *bitslicedsig_create(u_int32_t max_doc_capacity, u_int32_t m, u_int32_t k)
 {
-    int i;
+    u_int32_t i;
     bitslicedsig_t *bitslicedsig = malloc(sizeof(bitslicedsig_t));
 
     bitslicedsig->added_d = 0;
@@ -53,7 +43,7 @@ void bitslicedsig_free(bitslicedsig_t *bitslicedsig)
 {
     if (bitslicedsig)
     {
-        int i;
+        u_int32_t i;
         for (i = 0; i < bitslicedsig->m; i++)
             free((bitslicedsig->bit_matrix)[i]);
         free(bitslicedsig->bit_matrix);
@@ -62,7 +52,7 @@ void bitslicedsig_free(bitslicedsig_t *bitslicedsig)
     }
 }
 
-void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, int index, char *filename)
+void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *filename)
 {
 
     FILE *f;
@@ -73,13 +63,13 @@ void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, int index, char *filenam
         return;
     }
 
-    int h;
+    u_int32_t h;
     u_int32_t hash;
 
-    int blockIndex = index >> WORD_POW;
+    u_int32_t blockIndex = index >> WORD_POW;
     u_int32_t docWord = 1ULL << mod_pow_2(index, WORD_SIZE);
 
-    const int bufferLength = 1023; // assumes no term exceeds length of 1023
+    const u_int32_t bufferLength = 1023; // assumes no term exceeds length of 1023
     char buffer[bufferLength];
     char *token;
     char *rest;
@@ -118,14 +108,14 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
         /* NOTREACHED */
     }
 
-    int h;
+    u_int32_t h;
     u_int32_t hash;
 
     /* flag which row indicies show up in query */
-    int num_query_blocks = (bitslicedsig->m + WORD_SIZE - 1) / WORD_SIZE;
+    u_int32_t num_query_blocks = (bitslicedsig->m + WORD_SIZE - 1) / WORD_SIZE;
     u_int32_t *querysig = calloc(num_query_blocks, sizeof(u_int32_t));
 
-    const int bufferLength = 1023; // assumes no term exceeds length of 1023
+    const u_int32_t bufferLength = 1023; // assumes no term exceeds length of 1023
     char buffer[bufferLength];
     char *token;
     char *rest;
@@ -150,7 +140,7 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
         }
     }
 
-    int b, r, c;
+    u_int32_t b, r, c;
     bool isSet;
 
     /* find intersecting documents */
@@ -179,7 +169,9 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
 
 void bitslicesig_print(bitslicedsig_t *bitslicedsig)
 {
-    u_int32_t i, j;
+    u_int32_t i, j, d, docWord;
+    u_int32_t *colsums = calloc(bitslicedsig->added_d, sizeof(u_int32_t));
+
     printf("\n---------------------------------\n");
     printf("Bit-Sliced Block Signature\n");
     printf("\nm = %d, k = %d, num_blocks = %d", bitslicedsig->m, bitslicedsig->k, bitslicedsig->num_blocks);
@@ -194,8 +186,22 @@ void bitslicesig_print(bitslicedsig_t *bitslicedsig)
     {
         for (j = 0; j < bitslicedsig->num_blocks; j++)
         {
+            for (d = 0; d < WORD_SIZE; d++)
+            {
+                if (d > bitslicedsig->added_d)
+                    break;
+                docWord = 1ULL << d;
+                if (bitslicedsig->bit_matrix[i][j] & docWord)
+                    colsums[(j * WORD_SIZE) + d] += 1;
+            }
             printf("%x ", bitslicedsig->bit_matrix[i][j]);
         }
     }
+
+    printf("\ncolsums = ");
+    for (i = 0; i < bitslicedsig->added_d; i++)
+        printf("%d ", colsums[i]);
+    free(colsums);
+
     printf("\n---------------------------------\n");
 }

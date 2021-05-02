@@ -29,7 +29,7 @@ int test_bitslicedsig(options_t *options)
     }
 
     if (options->verbose)
-        printf("\n ------ \n Create Bit-Sliced Signature with %d signature bits, %d hash functions, and a max of %d documents \n", options->m, options->k, options->d);
+        printf("\n ------ \n Create Bit-Sliced Signature with %d signature bits, %d hash functions, and can store atleast of %d documents \n", options->m, options->k, options->d);
     bitslicedsig_t *bss = bitslicedsig_create(5, 64, 5);
     if (options->verbose)
         bitslicesig_print(bss);
@@ -56,7 +56,7 @@ int test_bitslicedsig(options_t *options)
     /* query */
     if (options->verbose)
     {
-        const int bufferLength = 1023; // assumes no term exceeds length of 1023
+        const u_int32_t bufferLength = 1023; // assumes no term exceeds length of 1023
         char buffer[bufferLength];
         char *token;
         char *rest;

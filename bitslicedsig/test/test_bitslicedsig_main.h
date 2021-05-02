@@ -33,9 +33,9 @@ typedef struct
     int verbose;
     char *prefix_path_of_corpus_to_add;
     FILE *fquery;
-    uint32_t m;
-    uint32_t k;
-    uint32_t d;
+    u_int32_t m;
+    u_int32_t k;
+    u_int32_t d;
 } options_t;
 
 #include "test_bitslicedsig.h"
