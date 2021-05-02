@@ -38,17 +38,21 @@ bf_spellcheck: bf_play bf_spellcheck.dat
 bf_spellcheck_w_Gati: bf_play bf_spellcheck_w_Gati.dat
 	echo "hi my name is Gati" | ./bf_play -f bf_spellcheck_w_Gati.dat
 
-# spellcheck, color definitely not in set words red
+# spellcheck, color definitely not in words set red
 bf_spellcheck_readme: bf_play bf_spellcheck.dat
 	./bf_play -f bf_spellcheck.dat -i README.md
 
-# spellcheck, print definitely not in set words
+# spellcheck, color may be in words set blue
+bf_spellcheck_readme_x: bf_play bf_spellcheck.dat
+	./bf_play -f bf_spellcheck.dat -i README.md -x
+
+# spellcheck, print definitely not in words set
 bf_spellcheck_readme_s: bf_play bf_spellcheck.dat
 	./bf_play -f bf_spellcheck.dat -i README.md -s
 
-# spellcheck, color (may be) correct words blue
-bf_spellcheck_readme_x: bf_play bf_spellcheck.dat
-	./bf_play -f bf_spellcheck.dat -i README.md -x
+# spellcheck, print words that may be in words set
+bf_spellcheck_readme_sx: bf_play bf_spellcheck.dat
+	./bf_play -f bf_spellcheck.dat -i README.md -sx
 
 #########################
 # Bit-Sliced Signatures #
