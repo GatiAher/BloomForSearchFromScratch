@@ -116,21 +116,24 @@ int test_bloom(options_t *options)
 
     test_results_t test_res = {options->verbose, 0, 0, 0, 0, 0};
 
+    /* test creation */
     if (options->verbose)
         printf("\n---\nCreate Bloom filter with %d bits and %d hash functions\n", options->m, options->k);
     bloom_t *filter = bloom_create(options->m, options->k);
     if (options->verbose)
         bloom_print(filter);
 
+    /* test add */
     process_stream(&test_res, filter, operate_test_add_with_warning, options->fadd_to_bloom);
     if (options->verbose)
         bloom_print(filter);
 
+    /* test lookup */ 
     process_stream(&test_res, filter, operate_test_lookup_real_positives, options->fadd_to_bloom);
     process_stream(&test_res, filter, operate_test_lookup_real_negatives, options->fcheck_in_bloom);
 
+    /* test save */
     char test_save_bloom[] = "test_save_bloom.txt";
-
     if (options->verbose)
         printf("\n---\nSave Bloom filter\n");
     uint32_t save_status = bloom_save(filter, test_save_bloom);
@@ -139,12 +142,13 @@ int test_bloom(options_t *options)
     else
         printf("\nError saving Bloom filter to %s!", test_save_bloom);
 
+    /* test free */
     if (options->verbose)
         printf("\n---\nFree Bloom filter");
     bloom_free(filter);
 
+    /* test load */
     test_results_t test_res_load = {options->verbose, 0, 0, 0, 0, 0};
-
     printf("\n---\nLoad Bloom Filter from %s\n", test_save_bloom);
     bloom_t *load_filter = bloom_load(test_save_bloom);
     bloom_print(load_filter);
