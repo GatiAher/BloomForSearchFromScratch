@@ -290,7 +290,18 @@ void bitslicedsig_print(bitslicedsig_t *bitslicedsig)
     for (i = 0; i < bitslicedsig->k; i++)
         printf("%d ", bitslicedsig->hash_seeds[i]);
 
-    printf("\narray = ");
+    printf("\narray = \n");
+    for (i = 0; i < bitslicedsig->m && i < 10; i++)
+    {
+        for (j = 0; j < bitslicedsig->num_blocks && j < 10; j++)
+        {
+            printf("%d\t", bitslicedsig->bit_matrix[i][j]);
+        }
+        printf("\n");
+    }
+    printf("... [output truncated]");
+
+    printf("\ncolsums = ");
     for (i = 0; i < bitslicedsig->m; i++)
     {
         for (j = 0; j < bitslicedsig->num_blocks; j++)
@@ -301,11 +312,8 @@ void bitslicedsig_print(bitslicedsig_t *bitslicedsig)
                 if (bitslicedsig->bit_matrix[i][j] & docWord)
                     colsums[(j * WORD_SIZE) + d] += 1;
             }
-            printf("%x ", bitslicedsig->bit_matrix[i][j]);
         }
     }
-
-    printf("\ncolsums = ");
     for (i = 0; i < bitslicedsig->num_blocks * WORD_SIZE; i++)
         printf("%d ", colsums[i]);
 
