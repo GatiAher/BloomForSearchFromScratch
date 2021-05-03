@@ -131,8 +131,9 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
     u_int32_t hash;
 
     /* flag which row indicies show up in query */
-    u_int32_t num_query_blocks = (bitslicedsig->m + WORD_SIZE - 1) / WORD_SIZE;
-    u_int32_t *querysig = calloc(num_query_blocks, sizeof(u_int32_t));
+    u_int32_t num_query_blocks = bitslicedsig->m >> WORD_POW;
+    u_int32_t querysig[num_query_blocks];
+    memset(querysig, 0, num_query_blocks * sizeof(u_int32_t));
 
     const u_int32_t bufferLength = 1023; // assumes no term exceeds length of 1023
     char buffer[bufferLength];
@@ -190,8 +191,6 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
                 printf("doc %d \n", c);
         }
     }
-
-    free(querysig);
 }
 
 u_int32_t bitslicedsig_save(bitslicedsig_t *bitslicedsig, const char *filename)
