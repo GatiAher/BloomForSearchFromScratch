@@ -11,7 +11,7 @@
 #define BF_EDITOR_H
 
 #include "bf_editor_main.h"
-#include "bloom.h"
+#include "../src/bloom.h"
 
 /* Create and save a Bloom filter */
 int bf_editor(options_t *options);

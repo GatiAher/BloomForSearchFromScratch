@@ -9,7 +9,7 @@
 #define BF_PLAY_H
 
 #include "bf_play_main.h"
-#include "bloom.h"
+#include "../src/bloom.h"
 
 /* Use a Bloom filter to process input
 

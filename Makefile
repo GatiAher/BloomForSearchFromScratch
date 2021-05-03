@@ -5,6 +5,8 @@
 murmurhash.o: deps/murmurhash/murmurhash.c deps/murmurhash/murmurhash.h
 	gcc -c deps/murmurhash/murmurhash.c
 
+# test
+
 test_murmurhash: bloom/test/test_murmurhash.c murmurhash.o
 	gcc -Wpedantic -Wall -Wextra -o test_murmurhash bloom/test/test_murmurhash.c murmurhash.o
 
@@ -15,16 +17,18 @@ test_murmurhash: bloom/test/test_murmurhash.c murmurhash.o
 bloom.o: bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
 	gcc -c bloom/src/bloom.c
 
+# test
+
 test_bloom: bloom/test/test_bloom_main.c bloom/test/test_bloom_main.h bloom/test/test_bloom.c bloom/test/test_bloom.h bloom.o
 	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/test/test_bloom_main.c bloom/test/test_bloom.c bloom.o murmurhash.o
 
-bf_editor: bloom/src/bf_editor_main.c bloom/src/bf_editor_main.h bloom/src/bf_editor.c bloom/src/bf_editor.h bloom.o
-	gcc -Wpedantic -Wall -Wextra -o bf_editor bloom/src/bf_editor_main.c bloom/src/bf_editor.c bloom.o murmurhash.o
+# demo
 
-bf_play: bloom/src/bf_play_main.c bloom/src/bf_play_main.h bloom/src/bf_play.c bloom/src/bf_play.h bloom.o
-	gcc -Wpedantic -Wall -Wextra -o bf_play bloom/src/bf_play_main.c bloom/src/bf_play.c bloom.o murmurhash.o
+bf_editor: bloom/demo/bf_editor_main.c bloom/demo/bf_editor_main.h bloom/demo/bf_editor.c bloom/demo/bf_editor.h bloom.o
+	gcc -Wpedantic -Wall -Wextra -o bf_editor bloom/demo/bf_editor_main.c bloom/demo/bf_editor.c bloom.o murmurhash.o
 
-# demos
+bf_play: bloom/demo/bf_play_main.c bloom/demo/bf_play_main.h bloom/demo/bf_play.c bloom/demo/bf_play.h bloom.o
+	gcc -Wpedantic -Wall -Wextra -o bf_play bloom/demo/bf_play_main.c bloom/demo/bf_play.c bloom.o murmurhash.o
 
 bf_spellcheck.dat: bf_editor
 	./bf_editor -o bf_spellcheck.dat -i /usr/share/dict/words -m 1963040 -k 13
@@ -64,11 +68,15 @@ queryres.o: bitslicedsig/src/queryres.c bitslicedsig/src/queryres.h
 bitslicedsig.o: bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h murmurhash.o
 	gcc -c bitslicedsig/src/bitslicedsig.c
 
+# test
+
 test_bitslicedsig: bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig_main.h bitslicedsig/test/test_bitslicedsig.c bitslicedsig/test/test_bitslicedsig.h bitslicedsig.o queryres.o murmurhash.o
 	gcc -Wpedantic -Wall -Wextra -o test_bitslicedsig bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig.c bitslicedsig.o queryres.o murmurhash.o
 
+# clean
+
 clean:
-	rm *.o murmurhash.o test_* prog_* bf_*
+	rm *.o murmurhash.o test_* bf_*
 
 
 
