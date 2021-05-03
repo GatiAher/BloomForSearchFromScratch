@@ -75,10 +75,34 @@ bitslicedsig.o: bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h 
 test_bitslicedsig: bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig_main.h bitslicedsig/test/test_bitslicedsig.c bitslicedsig/test/test_bitslicedsig.h bitslicedsig.o queryres.o murmurhash.o
 	gcc -Wpedantic -Wall -Wextra -o test_bitslicedsig bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig.c bitslicedsig.o queryres.o murmurhash.o
 
+# xkcd keyword search demo
+
+bss_editor: bitslicedsig/demo/bss_editor_main.c bitslicedsig/demo/bss_editor_main.h bitslicedsig/demo/bss_editor.c bitslicedsig/demo/bss_editor.h bitslicedsig.o queryres.o murmurhash.o
+	gcc -Wpedantic -Wall -Wextra -o bss_editor bitslicedsig/demo/bss_editor_main.c bitslicedsig/demo/bss_editor.c bitslicedsig.o queryres.o murmurhash.o
+
+bss_play: bitslicedsig/demo/bss_play_main.c bitslicedsig/demo/bss_play_main.h bitslicedsig/demo/bss_play.c bitslicedsig/demo/bss_play.h bitslicedsig.o queryres.o murmurhash.o
+	gcc -Wpedantic -Wall -Wextra -o bss_play bitslicedsig/demo/bss_play_main.c bitslicedsig/demo/bss_play.c bitslicedsig.o queryres.o murmurhash.o
+
+# get the corpus
+start_index = 1
+end_index = 40
+
+bitslicedsig/demo/xkcd_corpus/xkcd_index.txt: bitslicedsig/demo/save_xkcd_text_docs.py
+	mkdir -p bitslicedsig/demo/xkcd_corpus
+	python3 bitslicedsig/demo/save_xkcd_text_docs.py --start_index $(start_index) --end_index $(end_index)
+
+bss_xkcd.dat: bitslicedsig/demo/xkcd_corpus/xkcd_index.txt bss_editor
+	./bss_editor -o bss_xkcd.dat -i bitslicedsig/demo/xkcd_corpus/xkcd_index.txt -m 400 -k 3 -d $(end_index) -v
+
+# keyword search, should perform boolean AND query and check if any documents contain all the query words
+# spelling and case matter
+demo_bss_xkcd_query: bss_play bss_xkcd.dat
+	echo "outside" | ./bss_play -f bss_xkcd.dat -v
+
 # clean
 
 clean:
-	rm *.o murmurhash.o test_* bf_* demo_*
+	rm *.o murmurhash.o test_* bf_* demo_* bss_*
 
 
 

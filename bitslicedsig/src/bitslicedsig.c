@@ -275,7 +275,7 @@ bitslicedsig_t *bitslicedsig_load(const char *filename)
     return bitslicedsig;
 }
 
-void bitslicesig_print(bitslicedsig_t *bitslicedsig)
+void bitslicedsig_print(bitslicedsig_t *bitslicedsig)
 {
     u_int32_t i, j, d, docWord;
     u_int32_t colsums[bitslicedsig->num_blocks * WORD_SIZE];

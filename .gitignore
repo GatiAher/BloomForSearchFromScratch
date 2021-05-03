@@ -1,0 +1,5 @@
+bitslicedsig/demo/xkcd_corpus/*
+
+.vscode
+
+.pytest_cache

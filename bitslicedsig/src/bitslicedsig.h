@@ -78,6 +78,6 @@ u_int32_t bitslicedsig_save(bitslicedsig_t *filter, const char *filename);
 bitslicedsig_t *bitslicedsig_load(const char *filename);
 
 /* Print bitslicesig bit matrix */
-void bitslicesig_print(bitslicedsig_t *bitslicedsig);
+void bitslicedsig_print(bitslicedsig_t *bitslicedsig);
 
 #endif

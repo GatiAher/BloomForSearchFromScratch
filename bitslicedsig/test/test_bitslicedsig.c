@@ -33,7 +33,7 @@ int test_bitslicedsig(options_t *options)
         printf("\n ------ \n Create Bit-Sliced Signature with %d signature bits, %d hash functions, and can store atleast of %d documents \n", options->m, options->k, options->d);
     bitslicedsig_t *bss = bitslicedsig_create(options->m, options->k, options->d);
     if (options->verbose)
-        bitslicesig_print(bss);
+        bitslicedsig_print(bss);
 
     /* test add */
     uint32_t i;
@@ -50,7 +50,7 @@ int test_bitslicedsig(options_t *options)
         printf("Added doc %d: %s\n", i, pathcopy);
         if (options->verbose)
         {
-            bitslicesig_print(bss);
+            bitslicedsig_print(bss);
         }
     }
 
@@ -101,7 +101,7 @@ int test_bitslicedsig(options_t *options)
     /* test load */
     printf("\n---\nLoad Bit-Sliced Signature from %s\n", test_save_bss);
     bitslicedsig_t *load_bss = bitslicedsig_load(test_save_bss);
-    bitslicesig_print(load_bss);
+    bitslicedsig_print(load_bss);
 
     rewind(options->fquery);
     queryres_t *qr_load = bitslicedsig_query(load_bss, options->fquery);
