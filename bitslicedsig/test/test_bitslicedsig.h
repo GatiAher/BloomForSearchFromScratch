@@ -11,6 +11,7 @@
 #include "test_bitslicedsig_main.h"
 #include "../src/bitslicedsig.h"
 
+/* Run Bit-Sliced Signature filter functionality test*/
 int test_bitslicedsig(options_t *options);
 
 #endif

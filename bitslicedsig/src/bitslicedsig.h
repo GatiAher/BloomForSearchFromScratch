@@ -9,17 +9,20 @@
 
 #include "../../deps/murmurhash/murmurhash.h"
 
+#define ERR_FOPEN_LOAD_BITSLICEDSIG_FROM "Error while opening the file: fopen(file_load_bitslicedsig_from, r)"
+#define ERR_FOPEN_SAVE_BITSLICEDSIG_TO "Error while opening the file: fopen(file_save_bitslicesig_bloom_to, r)"
+
 typedef struct
 {
-    u_int32_t num_blocks;
-    u_int32_t added_d;
     u_int32_t m;
     u_int32_t **bit_matrix;
     u_int32_t k;
     u_int32_t *hash_seeds;
+    u_int32_t num_blocks;
+    u_int32_t added_d;
 } bitslicedsig_t;
 
-/** Creates a new bit-sliced signature matrix
+/** Creates a new bit-sliced block signature matrix
  * 
  * Creates a m*n bit matrix where m is number of signature bits and n is number of documents.
  * 
@@ -56,6 +59,22 @@ void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *f
  * Returns list of document indicies that match the query
  */
 void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery);
+
+/** Save a bitslicedsig: bit-sliced signature to file
+ * 
+ * bitslicedsig: bit-sliced signature
+ * filename: valid filename 
+ * 
+ * Returns status code 0 if successful, 1 if unsuccessful
+ */
+u_int32_t bitslicedsig_save(bitslicedsig_t *filter, const char *filename);
+
+/** Load a Bloom filter from file
+ * 
+ * bitslicedsig: bit-sliced signature
+ * Returns a bit-sliced signature saved by bitslicedsig_save
+ */
+bitslicedsig_t *bitslicedsig_load(const char *filename);
 
 /* Print bitslicesig bit matrix */
 void bitslicesig_print(bitslicedsig_t *bitslicedsig);

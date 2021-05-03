@@ -194,10 +194,89 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
     free(querysig);
 }
 
+u_int32_t bitslicedsig_save(bitslicedsig_t *bitslicedsig, const char *filename)
+{
+    FILE *outfile;
+    outfile = fopen(filename, "w");
+    if (outfile == NULL)
+    {
+        perror(ERR_FOPEN_SAVE_BITSLICEDSIG_TO);
+        return 1;
+    }
+
+    u_int32_t status_code = 0;
+
+    // m
+    if (fwrite(&bitslicedsig->m, sizeof(u_int32_t), 1, outfile) == 0)
+        status_code = 1;
+
+    // k
+    if (fwrite(&bitslicedsig->k, sizeof(u_int32_t), 1, outfile) == 0)
+        status_code = 1;
+
+    // num_blocks
+    if (fwrite(&bitslicedsig->num_blocks, sizeof(u_int32_t), 1, outfile) == 0)
+        status_code = 1;
+
+    // added_d
+    if (fwrite(&bitslicedsig->added_d, sizeof(u_int32_t), 1, outfile) == 0)
+        status_code = 1;
+
+    // hash_seeds
+    if (fwrite(bitslicedsig->hash_seeds, sizeof(u_int32_t), bitslicedsig->k, outfile) == 0)
+        status_code = 1;
+
+    // bit_matrix
+    u_int32_t i = 0;
+    for (i = 0; i < bitslicedsig->m; i++)
+    {
+        if (fwrite(bitslicedsig->bit_matrix[i], sizeof(u_int32_t), bitslicedsig->num_blocks, outfile) == 0)
+            status_code = 1;
+    }
+
+    fclose(outfile);
+    return status_code;
+}
+
+bitslicedsig_t *bitslicedsig_load(const char *filename)
+{
+    FILE *infile;
+
+    infile = fopen(filename, "r");
+    if (infile == NULL)
+    {
+        perror(ERR_FOPEN_LOAD_BITSLICEDSIG_FROM);
+        exit(1);
+    }
+
+    u_int32_t m, k, num_blocks, added_d;
+
+    fread(&m, sizeof(u_int32_t), 1, infile);
+    fread(&k, sizeof(u_int32_t), 1, infile);
+    fread(&num_blocks, sizeof(u_int32_t), 1, infile);
+    fread(&added_d, sizeof(u_int32_t), 1, infile);
+
+    bitslicedsig_t *bitslicedsig = bitslicedsig_create(m, k, num_blocks * WORD_SIZE);
+    bitslicedsig->added_d = added_d;
+
+    fread(bitslicedsig->hash_seeds, sizeof(u_int32_t), bitslicedsig->k, infile);
+
+    // bit_matrix
+    u_int32_t i = 0;
+    for (i = 0; i < bitslicedsig->m; i++)
+    {
+        fread(bitslicedsig->bit_matrix[i], sizeof(u_int32_t), bitslicedsig->num_blocks, infile);
+    }
+
+    fclose(infile);
+    return bitslicedsig;
+}
+
 void bitslicesig_print(bitslicedsig_t *bitslicedsig)
 {
     u_int32_t i, j, d, docWord;
-    u_int32_t *colsums = calloc(bitslicedsig->added_d, sizeof(u_int32_t));
+    u_int32_t colsums[bitslicedsig->num_blocks * WORD_SIZE];
+    memset(colsums, 0, bitslicedsig->num_blocks * WORD_SIZE * sizeof(u_int32_t));
 
     printf("\n---------------------------------\n");
     printf("Bit-Sliced Block Signature\n");
@@ -215,8 +294,6 @@ void bitslicesig_print(bitslicedsig_t *bitslicedsig)
         {
             for (d = 0; d < WORD_SIZE; d++)
             {
-                if (d > bitslicedsig->added_d)
-                    break;
                 docWord = 1ULL << d;
                 if (bitslicedsig->bit_matrix[i][j] & docWord)
                     colsums[(j * WORD_SIZE) + d] += 1;
@@ -226,9 +303,8 @@ void bitslicesig_print(bitslicedsig_t *bitslicedsig)
     }
 
     printf("\ncolsums = ");
-    for (i = 0; i < bitslicedsig->added_d; i++)
+    for (i = 0; i < bitslicedsig->num_blocks * WORD_SIZE; i++)
         printf("%d ", colsums[i]);
-    free(colsums);
 
     printf("\n---------------------------------\n");
 }

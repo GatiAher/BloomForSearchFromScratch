@@ -6,7 +6,7 @@
  */
 
 #include "test_bitslicedsig.h"
-/* Run bloom filter */
+
 int test_bitslicedsig(options_t *options)
 {
 
@@ -28,13 +28,14 @@ int test_bitslicedsig(options_t *options)
         return EXIT_FAILURE;
     }
 
+    /* test creation */
     if (options->verbose)
         printf("\n ------ \n Create Bit-Sliced Signature with %d signature bits, %d hash functions, and can store atleast of %d documents \n", options->m, options->k, options->d);
     bitslicedsig_t *bss = bitslicedsig_create(options->m, options->k, options->d);
     if (options->verbose)
         bitslicesig_print(bss);
 
-    /* Add all the documents */
+    /* test add */
     uint32_t i;
     for (i = 0; i < options->d; i++)
     {
@@ -53,7 +54,7 @@ int test_bitslicedsig(options_t *options)
         }
     }
 
-    /* query */
+    /* get query for logging */
     if (options->verbose)
     {
         const u_int32_t bufferLength = 1023; // assumes no term exceeds length of 1023
@@ -76,8 +77,35 @@ int test_bitslicedsig(options_t *options)
         rewind(options->fquery);
     }
 
+    /* test lookup */
     bitslicedsig_query(bss, options->fquery);
+
+    /* test save */
+    char test_save_bss[] = "test_save_bitslicedsig.txt";
+    if (options->verbose)
+        printf("\n---\nSave Bit-Sliced Signature \n");
+    uint32_t save_status = bitslicedsig_save(bss, test_save_bss);
+    if (save_status == 0)
+        printf("\nSucessfully saved Bit-Sliced Signature to %s!", test_save_bss);
+    else
+        printf("\nError saving Bit-Sliced Signature to %s!", test_save_bss);
+
+    /* test free */
+    if (options->verbose)
+        printf("\n---\nFree Bit-Sliced Signature");
     bitslicedsig_free(bss);
+
+    /* test load */
+    printf("\n---\nLoad Bit-Sliced Signature from %s\n", test_save_bss);
+    bitslicedsig_t *load_bss = bitslicedsig_load(test_save_bss);
+    bitslicesig_print(load_bss);
+
+    rewind(options->fquery);
+    bitslicedsig_query(load_bss, options->fquery);
+
+    if (options->verbose)
+        printf("\n---\nFree loaded Bit-Sliced Signature\n");
+    bitslicedsig_free(load_bss);
 
     return EXIT_SUCCESS;
 }
