@@ -1,5 +1,6 @@
 fadd_to_bloom: bloom/test/in_test.txt
 fcheck_in_bloom: bloom/test/out_test.txt
+Program: test_bloom
 
 ---
 Create Bloom filter with 60 bits and 3 hash functions
@@ -44,7 +45,9 @@ test: bloom_add_with_warning
 test: bloom_add_with_warning
 >> added Authority
 test: bloom_add_with_warning
->> added Awe-inspiring
+>> added Awe
+test: bloom_add_with_warning
+>> added inspiring
 test: bloom_add_with_warning
 >> added Awesome
 test: bloom_add_with_warning
@@ -59,9 +62,9 @@ Bloom filter
 
 m = 64, k = 3
 hash_seeds = 28 10 6 
-array = 7ea3afe5 cbfb54bb 0 0 0 0 21 0 1c a ... [output truncated]
+array = 7ea3a7f5 cbfb54bb 0 0 0 0 21 0 1c a ... [output truncated]
 42/64 bits set
-20 items added
+21 items added
 ---------------------------------
 test: bloom_lookup, real positives
 >> TP: Absolutely
@@ -94,7 +97,9 @@ test: bloom_lookup, real positives
 test: bloom_lookup, real positives
 >> TP: Authority
 test: bloom_lookup, real positives
->> TP: Awe-inspiring
+>> TP: Awe
+test: bloom_lookup, real positives
+>> TP: inspiring
 test: bloom_lookup, real positives
 >> TP: Awesome
 test: bloom_lookup, real positives
@@ -106,11 +111,17 @@ test: bloom_lookup, real positives
 test: bloom_lookup, real negatives
 >> TN: babble
 test: bloom_lookup, real negatives
->> TN: back-logged
+>> TN: back
 test: bloom_lookup, real negatives
->> TN: back-wood
+>> TN: logged
 test: bloom_lookup, real negatives
->> TN: back-woods
+>> TN: back
+test: bloom_lookup, real negatives
+!! FP: wood
+test: bloom_lookup, real negatives
+>> TN: back
+test: bloom_lookup, real negatives
+!! FP: woods
 test: bloom_lookup, real negatives
 >> TN: backache
 test: bloom_lookup, real negatives
@@ -118,7 +129,7 @@ test: bloom_lookup, real negatives
 test: bloom_lookup, real negatives
 >> TN: backbite
 test: bloom_lookup, real negatives
-!! FP: backbiting
+>> TN: backbiting
 test: bloom_lookup, real negatives
 >> TN: backward
 test: bloom_lookup, real negatives
@@ -178,13 +189,13 @@ test: bloom_lookup, real negatives
 test: bloom_lookup, real negatives
 >> TN: battered
 test: bloom_lookup, real negatives
-!! FP: battering
+>> TN: battering
 test: bloom_lookup, real negatives
 >> TN: batty
 test: bloom_lookup, real negatives
 >> TN: bearish
 test: bloom_lookup, real negatives
->> TN: beastly
+!! FP: beastly
 test: bloom_lookup, real negatives
 >> TN: bedlam
 test: bloom_lookup, real negatives
@@ -211,16 +222,16 @@ Sucessfully saved Bloom filter to test_save_bloom.txt!
 ---
 Free Bloom filter
 ---
-Load Bloom Filter from test_save_bloom.txt
+Load Bloom filter from test_save_bloom.txt
 
 ---------------------------------
 Bloom filter
 
 m = 64, k = 3
 hash_seeds = 28 10 6 
-array = 7ea3afe5 cbfb54bb 0 0 0 0 1c701 0 0 0 ... [output truncated]
+array = 7ea3a7f5 cbfb54bb 0 0 0 0 1c701 0 0 0 ... [output truncated]
 42/64 bits set
-20 items added
+21 items added
 ---------------------------------
 test: bloom_lookup, real positives
 >> TP: Absolutely
@@ -253,7 +264,9 @@ test: bloom_lookup, real positives
 test: bloom_lookup, real positives
 >> TP: Authority
 test: bloom_lookup, real positives
->> TP: Awe-inspiring
+>> TP: Awe
+test: bloom_lookup, real positives
+>> TP: inspiring
 test: bloom_lookup, real positives
 >> TP: Awesome
 test: bloom_lookup, real positives
@@ -265,11 +278,17 @@ test: bloom_lookup, real positives
 test: bloom_lookup, real negatives
 >> TN: babble
 test: bloom_lookup, real negatives
->> TN: back-logged
+>> TN: back
 test: bloom_lookup, real negatives
->> TN: back-wood
+>> TN: logged
 test: bloom_lookup, real negatives
->> TN: back-woods
+>> TN: back
+test: bloom_lookup, real negatives
+!! FP: wood
+test: bloom_lookup, real negatives
+>> TN: back
+test: bloom_lookup, real negatives
+!! FP: woods
 test: bloom_lookup, real negatives
 >> TN: backache
 test: bloom_lookup, real negatives
@@ -277,7 +296,7 @@ test: bloom_lookup, real negatives
 test: bloom_lookup, real negatives
 >> TN: backbite
 test: bloom_lookup, real negatives
-!! FP: backbiting
+>> TN: backbiting
 test: bloom_lookup, real negatives
 >> TN: backward
 test: bloom_lookup, real negatives
@@ -337,13 +356,13 @@ test: bloom_lookup, real negatives
 test: bloom_lookup, real negatives
 >> TN: battered
 test: bloom_lookup, real negatives
-!! FP: battering
+>> TN: battering
 test: bloom_lookup, real negatives
 >> TN: batty
 test: bloom_lookup, real negatives
 >> TN: bearish
 test: bloom_lookup, real negatives
->> TN: beastly
+!! FP: beastly
 test: bloom_lookup, real negatives
 >> TN: bedlam
 test: bloom_lookup, real negatives
@@ -365,5 +384,5 @@ test: bloom_lookup, real negatives
 
 ---
 Free loaded Bloom filter
-Bloom filter (orig): TP 20 | TN 37 | FP 13 | FN 0 | add warnings 0 
-Bloom filter (load): TP 20 | TN 37 | FP 13 | FN 0 | 
+Bloom filter (orig): TP 21 | TN 39 | FP 14 | FN 0 | add warnings 0 
+Bloom filter (load): TP 21 | TN 39 | FP 14 | FN 0 | 

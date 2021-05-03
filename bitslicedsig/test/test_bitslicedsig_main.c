@@ -1,14 +1,13 @@
 /**
- * Test that Bit-Sliced Block Signature implementation works as expected.
+ * Test that bit-sliced signature implementation works as expected.
+ * 
+ * Calls all functions in bit-sliced signature API
  * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
-/* includes */
 #include "test_bitslicedsig_main.h"
 
-/* external declarations */
 extern int errno;
 extern char *optarg;
 extern int opterr, optind;

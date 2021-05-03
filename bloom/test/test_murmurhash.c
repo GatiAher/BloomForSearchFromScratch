@@ -2,7 +2,6 @@
  * Test that murmurhash dependency works as expected.
  * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #include <stdlib.h>

@@ -1,3 +1,9 @@
+/** 
+ * Implement a bit-sliced signature to perform keyword search for finding matching documents in a corpus 
+ * 
+ * Author: Gati Aher
+ * */
+
 #ifndef BITSLICEDSIG_H
 #define BITSLICEDSIG_H
 
@@ -23,18 +29,29 @@ typedef struct
     u_int32_t added_d;
 } bitslicedsig_t;
 
-/** Creates a new bit-sliced block signature matrix
+/** Creates a new bit-sliced signature matrix
  * 
- * Creates a m*n bit matrix where m is number of signature bits and n is number of documents.
+ * Creates a m*n bit matrix where m is number of signature bits and d is number of documents.
+ * The documents are stored in a bit-sliced configuration, so that each document is represented by a column of bits,
+ * so each machine word (32 bits) stores the presence of a hash in 32 documents.
  * 
- * A bit matrix created with large number of signature bits or large number of hash functions
- * has fewer collisions (fewer false positives). However, large number of signature bits
- * takes up space, and the greater number of hash functions leads to slower insertion and 
- * lookup performance time. 
+ * The number of signature bits (m) and number of hash functions (k) control the Bloom filter false positive rate. 
+ * 
+ * The value of m configures how many bits will be allocated for the bit array. 
+ * Ideally, when all the items are added, the bit array should be approximately half full.
+ * Worst case is if the bit array is completely full (all 1s), as it will say that every query may be in the filter (false positives).
+ * For performance reasons, the bit array rounds m to the nearest largest power of 2.
+ * 
+ * The value of k configures how my hash functions will be used in the Bloom filter hashing scheme.
+ * A higher number of hash functions means that there is a higher signal to noise ratio,
+ * where signal is the probability that if the term is a member of set given that all the term's probes are present in the Bloom filter,
+ * and noise is the probability of a false positive. Rarer terms have a higher likelihood of being a false positive, so increasing k
+ * improves the signal to noise ratio and allows for better retrival of rate terms. However, a larger k leads more hash operations, and
+ * therefore slower insertion and lookup time. The seeds of the hash function are generated with a random number generator.
  * 
  * m: number of bits to be used by each document signatures
  * k: number of hash functions
- * min_doc_capacity: bit matrix's lower bound on document storing capacity
+ * min_doc_capacity: bit matrix's lower bound on document storing capacity.
  */
 bitslicedsig_t *bitslicedsig_create(u_int32_t m, u_int32_t k, u_int32_t min_doc_capacity);
 
@@ -55,7 +72,7 @@ void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *f
 /** Queries if an item is in the bit-sliced signature
  * 
  * bitslicedsig: bit-sliced signature
- * query: file pointer with string to check for in bit-sliced signature
+ * fquery: file pointer with string to check for in bit-sliced signature
  * 
  * Returns query result as pointer to linked list of document indicies that match the query
  */

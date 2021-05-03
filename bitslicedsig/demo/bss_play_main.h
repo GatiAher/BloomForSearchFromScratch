@@ -1,8 +1,9 @@
 /**
  * Interactive bit-sliced signature.
  * 
+ * Load a bit-sliced signature and use it to evaluate a query.
+ * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #ifndef MAIN_H

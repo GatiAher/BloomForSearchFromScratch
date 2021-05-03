@@ -1,3 +1,5 @@
+/* Implementation of bit-sliced signature */
+
 #include "bitslicedsig.h"
 
 #define WORD_POW 5
@@ -316,6 +318,11 @@ void bitslicedsig_print(bitslicedsig_t *bitslicedsig)
     }
     for (i = 0; i < bitslicedsig->num_blocks * WORD_SIZE; i++)
         printf("%d ", colsums[i]);
+
+    printf("\n\npercent filled = ");
+    double m = bitslicedsig->m;
+    for (i = 0; i < bitslicedsig->num_blocks * WORD_SIZE; i++)
+        printf("%d=%.2f%% ", i, colsums[i]/m);
 
     printf("\n---------------------------------\n");
 }

@@ -1,8 +1,9 @@
 /**
  * Test that Bloom filter implementation works as expected.
  * 
+ * Calls all functions in Bloom filter API
+ * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #include "test_bloom_main.h"
@@ -14,8 +15,6 @@ extern int opterr, optind;
 int main(int argc, char *argv[])
 {
     int opt;
-
-    /* set default args */
     char *def_in_test = "bloom/test/in_test.txt";
     char *def_out_test = "bloom/test/out_test.txt";
     options_t options = {0, NULL, NULL, 60, 3};

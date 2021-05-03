@@ -1,14 +1,14 @@
 /**
- * Test that Bit-Sliced Block Signature implementation works as expected.
+ * Test that bit-sliced signature implementation works as expected.
+ * 
+ * Calls all functions in bit-sliced signature API
  * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #ifndef MAIN_H
 #define MAIN_H
 
-/* includes */
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -18,8 +18,7 @@
 #include <getopt.h>
 #include <stdint.h>
 
-/* defines */
-#define OPTSTR "va:c:m:k:d"
+#define OPTSTR "va:c:m:k:d:h"
 #define USAGE_FMT "%s [-v] [-a prefix_path_of_corpus_to_add] [-c file_query_to_check] [-m number_of_bits] [-k number_of_hash_functions] [-d number_of_documents] [-h]\n \
 \tDefault: add docs from `bitslicedsig/test/corpus/doc*.txt`, check query from `bitslicedsig/test/query.txt`, m = 60, k = 3, d = 3"
 #define ERR_FOPEN_ADD_TO_BITSLICEDSIG "Error while opening the file: fopen(prefix_path_of_corpus_to_add/file, r)"
@@ -27,7 +26,6 @@
 #define ERR_RUN_BITSLICEDSIG "test_bitslicedsig failed"
 #define DEFAULT_PROGNAME "test_bitslicedsig"
 
-/* typedefs */
 typedef struct
 {
     int verbose;
@@ -40,7 +38,7 @@ typedef struct
 
 #include "test_bitslicedsig.h"
 
-/* function prototypes */
+/* print program details */
 void usage(char *progname);
 
 #endif

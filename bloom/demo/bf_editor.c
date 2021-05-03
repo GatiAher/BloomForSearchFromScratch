@@ -4,7 +4,6 @@
  * Load a Bloom filter from a file or create a new one. Add new terms to it and save it.
  * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #include "bf_editor.h"

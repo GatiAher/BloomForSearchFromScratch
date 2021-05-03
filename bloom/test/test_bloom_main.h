@@ -1,8 +1,9 @@
 /**
  * Test that Bloom filter implementation works as expected.
  * 
+ * Calls all functions in Bloom filter API
+ * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #ifndef MAIN_H

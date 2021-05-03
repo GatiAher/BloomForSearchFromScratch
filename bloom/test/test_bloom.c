@@ -1,8 +1,9 @@
 /**
  * Test that Bloom filter implementation works as expected.
  * 
+ * Calls all functions in Bloom filter API
+ * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #include "test_bloom.h"
@@ -149,7 +150,7 @@ int test_bloom(options_t *options)
 
     /* test load */
     test_results_t test_res_load = {options->verbose, 0, 0, 0, 0, 0};
-    printf("\n---\nLoad Bloom Filter from %s\n", test_save_bloom);
+    printf("\n---\nLoad Bloom filter from %s\n", test_save_bloom);
     bloom_t *load_filter = bloom_load(test_save_bloom);
     bloom_print(load_filter);
 

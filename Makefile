@@ -22,9 +22,6 @@ bloom.o: bloom/src/bloom.c bloom/src/bloom.h murmurhash.o
 test_bloom: bloom/test/test_bloom_main.c bloom/test/test_bloom_main.h bloom/test/test_bloom.c bloom/test/test_bloom.h bloom.o
 	gcc -Wpedantic -Wall -Wextra -o test_bloom bloom/test/test_bloom_main.c bloom/test/test_bloom.c bloom.o murmurhash.o
 
-run_test_bloom: test_bloom
-	./test_bloom -v
-
 # demo
 
 bf_editor: bloom/demo/bf_editor_main.c bloom/demo/bf_editor_main.h bloom/demo/bf_editor.c bloom/demo/bf_editor.h bloom.o
@@ -50,6 +47,8 @@ demo_bf_spellcheck_w_Gati: bf_play bf_spellcheck_w_Gati.dat
 # spellcheck, color definitely not in words set red
 demo_bf_spellcheck_readme: bf_play bf_spellcheck.dat
 	./bf_play -f bf_spellcheck.dat -i README.md
+
+# different output options
 
 # spellcheck, color may be in words set blue
 demo_bf_spellcheck_readme_x: bf_play bf_spellcheck.dat
@@ -77,9 +76,6 @@ bitslicedsig.o: bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h 
 
 test_bitslicedsig: bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig_main.h bitslicedsig/test/test_bitslicedsig.c bitslicedsig/test/test_bitslicedsig.h bitslicedsig.o queryres.o murmurhash.o
 	gcc -Wpedantic -Wall -Wextra -o test_bitslicedsig bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig.c bitslicedsig.o queryres.o murmurhash.o
-
-run_test_bitslicedsig: test_bitslicedsig
-	./test_bitslicedsig -v
 
 # xkcd keyword search demo
 

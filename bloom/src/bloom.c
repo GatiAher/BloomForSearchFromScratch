@@ -1,7 +1,6 @@
-/** Implementation of Bloom filter for 32-bit little-endian system.
+/** Implementation of Bloom filter for 32-bit system.
  * 
  * Author: Gati Aher
- * Date: April 30, 2020
 */
 
 #include "bloom.h"

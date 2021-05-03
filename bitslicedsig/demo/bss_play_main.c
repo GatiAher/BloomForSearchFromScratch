@@ -1,8 +1,9 @@
 /**
  * Interactive bit-sliced signature.
  * 
+ * Load a bit-sliced signature and use it to evaluate a query.
+ * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #include "bss_play_main.h"
@@ -56,7 +57,7 @@ int main(int argc, char *argv[])
         }
     if (options.verbose)
         printf("Program: %s\n", DEFAULT_PROGNAME);
-        
+
     if (bss_play(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BSS);

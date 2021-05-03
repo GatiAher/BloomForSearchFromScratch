@@ -2,7 +2,9 @@
  * A structure to store the results of a query.
  * 
  * A partial implementation of a linked list is used to store query results
- * because an unknown number of
+ * because an unknown number of results can be returned.
+ * 
+ * Author: Gati Aher
  */
 
 #include "queryres.h"

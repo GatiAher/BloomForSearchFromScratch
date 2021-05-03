@@ -3,16 +3,16 @@ fcheck_in_bloom: bloom/test/out_test.txt
 
 Sucessfully saved Bloom filter to test_save_bloom.txt!
 ---
-Load Bloom Filter from test_save_bloom.txt
+Load Bloom filter from test_save_bloom.txt
 
 ---------------------------------
 Bloom filter
 
 m = 64, k = 3
 hash_seeds = 28 10 6 
-array = 7ea3afe5 cbfb54bb 0 0 0 0 1c701 0 0 0 ... [output truncated]
+array = 7ea3a7f5 cbfb54bb 0 0 0 0 1c701 0 0 0 ... [output truncated]
 42/64 bits set
-20 items added
+21 items added
 ---------------------------------
-Bloom filter (orig): TP 20 | TN 37 | FP 13 | FN 0 | add warnings 0 
-Bloom filter (load): TP 20 | TN 37 | FP 13 | FN 0 | 
+Bloom filter (orig): TP 21 | TN 39 | FP 14 | FN 0 | add warnings 0 
+Bloom filter (load): TP 21 | TN 39 | FP 14 | FN 0 | 

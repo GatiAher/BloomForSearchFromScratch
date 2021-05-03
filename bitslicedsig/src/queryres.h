@@ -3,6 +3,8 @@
  * 
  * A partial implementation of a linked list is used to store query results
  * because an unknown number of results can be returned.
+ * 
+ * Author: Gati Aher
  */
 
 #ifndef QUERYRES_H

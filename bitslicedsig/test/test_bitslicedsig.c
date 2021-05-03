@@ -1,8 +1,9 @@
 /**
- * Test that Bit-Sliced Block Signature implementation works as expected.
+ * Test that bit-sliced signature implementation works as expected.
+ * 
+ * Calls all functions in bit-sliced signature API
  * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #include "test_bitslicedsig.h"
@@ -30,7 +31,7 @@ int test_bitslicedsig(options_t *options)
 
     /* test creation */
     if (options->verbose)
-        printf("\n ------ \n Create Bit-Sliced Signature with %d signature bits, %d hash functions, and can store atleast of %d documents \n", options->m, options->k, options->d);
+        printf("\n ------ \n Create bit-sliced signature with %d signature bits, %d hash functions, and can store atleast of %d documents \n", options->m, options->k, options->d);
     bitslicedsig_t *bss = bitslicedsig_create(options->m, options->k, options->d);
     if (options->verbose)
         bitslicedsig_print(bss);
@@ -86,20 +87,20 @@ int test_bitslicedsig(options_t *options)
     /* test save */
     char test_save_bss[] = "test_save_bitslicedsig.txt";
     if (options->verbose)
-        printf("\n---\nSave Bit-Sliced Signature \n");
+        printf("\n---\nSave bit-sliced signature \n");
     uint32_t save_status = bitslicedsig_save(bss, test_save_bss);
     if (save_status == 0)
-        printf("\nSucessfully saved Bit-Sliced Signature to %s!", test_save_bss);
+        printf("\nSucessfully saved bit-sliced signature to %s!", test_save_bss);
     else
-        printf("\nError saving Bit-Sliced Signature to %s!", test_save_bss);
+        printf("\nError saving bit-sliced signature to %s!", test_save_bss);
 
     /* test free */
     if (options->verbose)
-        printf("\n---\nFree Bit-Sliced Signature");
+        printf("\n---\nFree bit-sliced signature");
     bitslicedsig_free(bss);
 
     /* test load */
-    printf("\n---\nLoad Bit-Sliced Signature from %s\n", test_save_bss);
+    printf("\n---\nLoad bit-sliced signature from %s\n", test_save_bss);
     bitslicedsig_t *load_bss = bitslicedsig_load(test_save_bss);
     bitslicedsig_print(load_bss);
 
@@ -110,7 +111,7 @@ int test_bitslicedsig(options_t *options)
     queryres_free(qr_load);
 
     if (options->verbose)
-        printf("\n---\nFree loaded Bit-Sliced Signature\n");
+        printf("\n---\nFree loaded bit-sliced signature\n");
     bitslicedsig_free(load_bss);
 
     return EXIT_SUCCESS;

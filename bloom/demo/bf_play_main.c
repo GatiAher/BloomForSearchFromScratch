@@ -1,8 +1,9 @@
 /**
- * Interactive Bloom Filter.
+ * Interactive Bloom filter.
+ * 
+ * Load a Bloom filter and use it to evaluate a query.
  * 
  * Author: Gati Aher
- * Date: April 30, 2021
  */
 
 #include "bf_play_main.h"
