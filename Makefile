@@ -36,26 +36,28 @@ bf_spellcheck.dat: bf_editor
 bf_spellcheck_w_Gati.dat: bf_spellcheck.dat
 	echo "Gati" | ./bf_editor -o bf_spellcheck_w_Gati.dat -f bf_spellcheck.dat
 
-bf_spellcheck: bf_play bf_spellcheck.dat
+# spellcheck, should mark "Gati" as wrong and highlight it red
+demo_bf_spellcheck: bf_play bf_spellcheck.dat
 	echo "hi my name is Gati" | ./bf_play -f bf_spellcheck.dat
 
-bf_spellcheck_w_Gati: bf_play bf_spellcheck_w_Gati.dat
+# spellcheck, should not mark "Gati" as wrong
+demo_bf_spellcheck_w_Gati: bf_play bf_spellcheck_w_Gati.dat
 	echo "hi my name is Gati" | ./bf_play -f bf_spellcheck_w_Gati.dat
 
 # spellcheck, color definitely not in words set red
-bf_spellcheck_readme: bf_play bf_spellcheck.dat
+demo_bf_spellcheck_readme: bf_play bf_spellcheck.dat
 	./bf_play -f bf_spellcheck.dat -i README.md
 
 # spellcheck, color may be in words set blue
-bf_spellcheck_readme_x: bf_play bf_spellcheck.dat
+demo_bf_spellcheck_readme_x: bf_play bf_spellcheck.dat
 	./bf_play -f bf_spellcheck.dat -i README.md -x
 
 # spellcheck, print definitely not in words set
-bf_spellcheck_readme_s: bf_play bf_spellcheck.dat
+demo_bf_spellcheck_readme_s: bf_play bf_spellcheck.dat
 	./bf_play -f bf_spellcheck.dat -i README.md -s
 
 # spellcheck, print words that may be in words set
-bf_spellcheck_readme_sx: bf_play bf_spellcheck.dat
+demo_bf_spellcheck_readme_sx: bf_play bf_spellcheck.dat
 	./bf_play -f bf_spellcheck.dat -i README.md -sx
 
 #########################
@@ -76,7 +78,7 @@ test_bitslicedsig: bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/
 # clean
 
 clean:
-	rm *.o murmurhash.o test_* bf_*
+	rm *.o murmurhash.o test_* bf_* demo_*
 
 
 
