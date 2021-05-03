@@ -30,6 +30,15 @@ int bss_play(options_t *options)
         return EXIT_FAILURE;
     }
 
+    if (!options->output_format_string)
+    {
+        errno = ENOENT;
+        return EXIT_FAILURE;
+    }
+
+    if (options->verbose)
+        printf("\nLoad bitslicedsig from file %s\n", options->loc_load_bss);
+
     /* load bit-sliced signature */
     bitslicedsig_t *bss = bitslicedsig_load(options->loc_load_bss);
 
@@ -42,7 +51,7 @@ int bss_play(options_t *options)
     res_t *ptr = qr->head;
     while (ptr != NULL)
     {
-        printf("https://xkcd.com/%d\n", ptr->data);
+        printf(options->output_format_string, ptr->data);
         ptr = ptr->next;
     }
     queryres_free(qr);

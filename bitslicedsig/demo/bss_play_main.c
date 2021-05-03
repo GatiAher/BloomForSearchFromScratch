@@ -14,7 +14,7 @@ extern int opterr, optind;
 int main(int argc, char *argv[])
 {
     int opt;
-    options_t options = {0, stdin, "bss_saved.txt"};
+    options_t options = {0, stdin, "bss_saved.txt", "Doc %d\n"};
 
     // Initialize opterr to 0 to disable getopt from emiting a ?.
     opterr = 0;
@@ -37,6 +37,11 @@ int main(int argc, char *argv[])
 
         case 'f':
             options.loc_load_bss = optarg;
+            break;
+
+        case 's':
+            options.output_format_string = optarg;
+            strcat(options.output_format_string, "\n");
             break;
 
         case 'v':

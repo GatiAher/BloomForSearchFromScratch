@@ -97,7 +97,7 @@ bss_xkcd.dat: bitslicedsig/demo/xkcd_corpus/xkcd_index.txt bss_editor
 # keyword search, should perform boolean AND query and check if any documents contain all the query words
 # spelling and case matter
 demo_bss_xkcd_query: bss_play bss_xkcd.dat
-	echo "outside" | ./bss_play -f bss_xkcd.dat -v
+	echo "outside" | ./bss_play -f bss_xkcd.dat -s "https://xkcd.com/%d"
 
 # clean
 
