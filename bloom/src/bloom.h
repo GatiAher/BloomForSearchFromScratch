@@ -1,3 +1,9 @@
+/** Implementation of Bloom filter for 32-bit little-endian system.
+ * 
+ * Author: Gati Aher
+ * Date: April 30, 2020
+*/
+
 #ifndef BLOOM_H
 #define BLOOM_H
 
@@ -10,7 +16,7 @@
 #include "../../deps/murmurhash/murmurhash.h"
 
 #define ERR_FOPEN_LOAD_BLOOM_FROM "Error while opening the file: fopen(file_load_bloom_from, r)"
-#define ERR_FOPEN_SAVE_BLOOM_TO "Error while opening the file: fopen(file_save_bloom_to, r)"
+#define ERR_FOPEN_SAVE_BLOOM_TO "Error while opening the file: fopen(file_save_bloom_to, w)"
 
 typedef struct
 {

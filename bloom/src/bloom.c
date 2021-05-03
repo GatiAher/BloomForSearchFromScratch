@@ -1,9 +1,13 @@
+/** Implementation of Bloom filter for 32-bit little-endian system.
+ * 
+ * Author: Gati Aher
+ * Date: April 30, 2020
+*/
+
 #include "bloom.h"
 
 #define WORD_POW 5
 #define WORD_SIZE 32
-
-/* Helper Functions */
 
 /**
  * Returns a mod b
