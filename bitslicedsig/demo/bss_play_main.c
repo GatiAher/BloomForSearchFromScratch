@@ -54,7 +54,9 @@ int main(int argc, char *argv[])
             /* NOTREACHED */
             break;
         }
-
+    if (options.verbose)
+        printf("Program: %s\n", DEFAULT_PROGNAME);
+        
     if (bss_play(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BSS);

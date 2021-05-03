@@ -58,6 +58,9 @@ int main(int argc, char *argv[])
             break;
         }
 
+    if (options.verbose)
+        printf("Program: %s\n", DEFAULT_PROGNAME);
+
     if (bf_play(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BLOOM);

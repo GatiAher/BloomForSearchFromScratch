@@ -69,6 +69,9 @@ int main(int argc, char *argv[])
             break;
         }
 
+    if (options.verbose)
+        printf("Program: %s\n", DEFAULT_PROGNAME);
+
     if (bss_editor(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BSS);

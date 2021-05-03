@@ -75,6 +75,9 @@ int main(int argc, char *argv[])
         }
     }
 
+    if (options.verbose)
+        printf("Program: %s\n", DEFAULT_PROGNAME);
+
     if (test_bitslicedsig(&options) != EXIT_SUCCESS)
     {
         perror(ERR_RUN_BITSLICEDSIG);
