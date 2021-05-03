@@ -10,7 +10,7 @@
  * 
  * b must be a power of 2 
  */
-u_int32_t mod_pow_2(int a, int b)
+u_int32_t mod_pow_2(u_int32_t a, u_int32_t b)
 {
     // if b is 2^n
     // a mod b = last n digits of a
@@ -44,7 +44,7 @@ u_int32_t get_next_pow_2(u_int32_t n)
  */
 u_int32_t count_set_bits(u_int32_t n)
 {
-    unsigned int c; // store the total here
+    u_int32_t c; // store the total here
 
     // divide and conquer
     c = n - ((n >> 1) & 0x55555555);
@@ -141,10 +141,10 @@ u_int32_t bloom_save(bloom_t *filter, const char *filename)
     if (outfile == NULL)
     {
         perror(ERR_FOPEN_SAVE_BLOOM_TO);
-        exit(1);
+        return 1;
     }
 
-    int status_code = 0;
+    u_int32_t status_code = 0;
 
     // m
     if (fwrite(&filter->m, sizeof(u_int32_t), 1, outfile) == 0)
@@ -167,7 +167,6 @@ u_int32_t bloom_save(bloom_t *filter, const char *filename)
         status_code = 1;
 
     fclose(outfile);
-
     return status_code;
 }
 
