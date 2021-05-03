@@ -20,7 +20,7 @@
 
 #define OPTSTR "va:c:m:k:d:h"
 #define USAGE_FMT "%s [-v] [-a prefix_path_of_corpus_to_add] [-c file_query_to_check] [-m number_of_bits] [-k number_of_hash_functions] [-d number_of_documents] [-h]\n \
-\tDefault: add docs from `bitslicedsig/test/corpus/doc*.txt`, check query from `bitslicedsig/test/query.txt`, m = 60, k = 3, d = 3"
+\tDefault: add docs from `bitslicedsig/test/corpus/doc*.txt`, check query from `bitslicedsig/test/query.txt`, m = 60, k = 3, d = 3 \n"
 #define ERR_FOPEN_ADD_TO_BITSLICEDSIG "Error while opening the file: fopen(prefix_path_of_corpus_to_add/file, r)"
 #define ERR_FOPEN_CHECK_IN_BITSLICEDSIG "Error while opening the file: fopen(file_query_to_check, r)"
 #define ERR_RUN_BITSLICEDSIG "test_bitslicedsig failed"

@@ -20,7 +20,7 @@
 
 #define OPTSTR "va:c:m:k:h"
 #define USAGE_FMT "%s [-v] [-a file_words_to_add_to_bloom] [-c file_words_to_check_in_bloom] [-m number_of_bits] [-k number_of_hash_functions] [-h]\n \
-\tDefault: add words from `bloom/test/in_test.txt`, check words from `bloom/test/out_test.txt`, m = 60, k = 3"
+\tDefault: add words from `bloom/test/in_test.txt`, check words from `bloom/test/out_test.txt`, m = 60, k = 3 \n"
 #define ERR_FOPEN_ADD_TO_BLOOM "Error while opening the file: fopen(file_words_to_add_to_bloom, r)"
 #define ERR_FOPEN_CHECK_IN_BLOOM "Error while opening the file: fopen(file_words_to_check_in_bloom, r)"
 #define ERR_RUN_BLOOM "test_bloom failed"

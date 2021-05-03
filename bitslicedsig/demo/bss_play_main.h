@@ -20,7 +20,7 @@
 
 #define OPTSTR "vf:i:s:h"
 #define USAGE_FMT "%s [-v] [-f file_load_bitslicedsig_from] [-i file_read_input_from] [-s output_format_string] [-h]\n \
-\tDefault: load bit-sliced signature from `bss_saved.txt`, read query from stdin or file, output matching documents with format specified by output_format_string, default: Doc %%d"
+\tDefault: load bit-sliced signature from `bss_saved.txt`, read query from stdin or file, output matching documents with format specified by output_format_string, default: Doc %%d \n"
 #define ERR_FOPEN_READ_INPUT_FROM "Error while opening the file: fopen(file_read_input_from, r)"
 #define ERR_RUN_BSS "bss_play failed"
 #define DEFAULT_PROGNAME "bss_play"

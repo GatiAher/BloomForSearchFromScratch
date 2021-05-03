@@ -20,7 +20,7 @@
 
 #define OPTSTR "vf:i:o:m:k:d:h"
 #define USAGE_FMT "%s [-v] [-f file_load_bitslicedsig_from] [-i file_read_input_from] [-o file_save_bitslicedsig_to] [-m number_of_bits] [-k number_of_hash_functions] [-d minimum_bound_on_document_capacity] [-h]\n \
-\tDefault: create or load bitslicedsig, read list of documents to add either from stdin or from file, save bitslicedsig to `bss_saved.txt`, m = 60, k = 3 d = 40"
+\tDefault: create or load bitslicedsig, read list of documents to add either from stdin or from file, save bitslicedsig to `bss_saved.txt`, m = 60, k = 3 d = 40 \n"
 #define ERR_FOPEN_READ_INPUT_FROM "Error while opening the file: fopen(file_read_input_from, r)"
 #define ERR_RUN_BSS "bss_editor failed"
 #define DEFAULT_PROGNAME "bss_editor"

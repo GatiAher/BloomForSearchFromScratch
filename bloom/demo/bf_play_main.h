@@ -20,7 +20,7 @@
 
 #define OPTSTR "vf:i:sxh"
 #define USAGE_FMT "%s [-v] [-f file_load_bloom_from] [-i file_read_input_from] [-s mode_display_selected] [-x mode_select_in] [-h]\n \
-\tDefault: load Bloom filter from `bf_saved.txt`, read input from stdin, m = 60, k = 3, -s OFF (print all text), -x OFF (color out-of-set terms red)"
+\tDefault: load Bloom filter from `bf_saved.txt`, read input from stdin, m = 60, k = 3, -s OFF (print all text), -x OFF (color out-of-set terms red) \n"
 #define ERR_FOPEN_READ_INPUT_FROM "Error while opening the file: fopen(file_read_input_from, r)"
 #define ERR_RUN_BLOOM "bf_play failed"
 #define DEFAULT_PROGNAME "bf_play"

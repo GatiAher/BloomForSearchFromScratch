@@ -20,7 +20,7 @@
 
 #define OPTSTR "vf:i:o:m:k:h"
 #define USAGE_FMT "%s [-v] [-f file_load_bloom_from] [-i file_read_input_from] [-o file_save_bloom_to] [-m number_of_bits] [-k number_of_hash_functions] [-h]\n \
-\tDefault: create new Bloom filter, read input from stdin, save Bloom filter to `bf_saved.txt`, m = 60, k = 3"
+\tDefault: create new Bloom filter, read input from stdin, save Bloom filter to `bf_saved.txt`, m = 60, k = 3 \n"
 #define ERR_FOPEN_READ_INPUT_FROM "Error while opening the file: fopen(file_read_input_from, r)"
 #define ERR_RUN_BLOOM "bf_editor failed"
 #define DEFAULT_PROGNAME "bf_editor"
