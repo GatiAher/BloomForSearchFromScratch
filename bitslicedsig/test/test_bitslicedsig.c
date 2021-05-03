@@ -78,7 +78,10 @@ int test_bitslicedsig(options_t *options)
     }
 
     /* test lookup */
-    bitslicedsig_query(bss, options->fquery);
+    queryres_t *qr = bitslicedsig_query(bss, options->fquery);
+    printf("\nDocuments matching query: ");
+    queryres_print(qr);
+    queryres_free(qr);
 
     /* test save */
     char test_save_bss[] = "test_save_bitslicedsig.txt";
@@ -101,7 +104,10 @@ int test_bitslicedsig(options_t *options)
     bitslicesig_print(load_bss);
 
     rewind(options->fquery);
-    bitslicedsig_query(load_bss, options->fquery);
+    queryres_t *qr_load = bitslicedsig_query(load_bss, options->fquery);
+    printf("\nDocuments matching query: ");
+    queryres_print(qr_load);
+    queryres_free(qr_load);
 
     if (options->verbose)
         printf("\n---\nFree loaded Bit-Sliced Signature\n");

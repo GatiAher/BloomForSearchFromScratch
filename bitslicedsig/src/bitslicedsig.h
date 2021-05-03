@@ -1,5 +1,5 @@
-#ifndef BLOOM_H
-#define BLOOM_H
+#ifndef BITSLICEDSIG_H
+#define BITSLICEDSIG_H
 
 #include <stdlib.h>
 #include <string.h>
@@ -8,6 +8,7 @@
 #include <stdbool.h>
 
 #include "../../deps/murmurhash/murmurhash.h"
+#include "queryres.h"
 
 #define ERR_FOPEN_LOAD_BITSLICEDSIG_FROM "Error while opening the file: fopen(file_load_bitslicedsig_from, r)"
 #define ERR_FOPEN_SAVE_BITSLICEDSIG_TO "Error while opening the file: fopen(file_save_bitslicesig_bloom_to, r)"
@@ -56,9 +57,9 @@ void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *f
  * bitslicedsig: bit-sliced signature
  * query: file pointer with string to check for in bit-sliced signature
  * 
- * Returns list of document indicies that match the query
+ * Returns query result as pointer to linked list of document indicies that match the query
  */
-void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery);
+queryres_t *bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery);
 
 /** Save a bitslicedsig: bit-sliced signature to file
  * 

@@ -117,7 +117,7 @@ void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *f
     bitslicedsig->added_d++;
 }
 
-void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
+queryres_t *bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
 {
     /* check that stream is not a NULL pointer */
     if (!fquery)
@@ -163,6 +163,8 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
     u_int32_t b, r, c;
     bool isSet;
 
+    queryres_t *qr = queryres_create();
+
     /* find intersecting documents */
     u_int32_t word_mask;
     for (b = 0; b < bitslicedsig->num_blocks; b++)
@@ -188,9 +190,11 @@ void bitslicedsig_query(bitslicedsig_t *bitslicedsig, FILE *fquery)
         {
             isSet = word_mask & (1ULL << c);
             if (isSet)
-                printf("doc %d \n", c);
+                queryres_add(qr, c);
         }
     }
+
+    return qr;
 }
 
 u_int32_t bitslicedsig_save(bitslicedsig_t *bitslicedsig, const char *filename)

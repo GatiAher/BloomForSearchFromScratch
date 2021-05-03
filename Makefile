@@ -58,11 +58,14 @@ bf_spellcheck_readme_sx: bf_play bf_spellcheck.dat
 # Bit-Sliced Signatures #
 #########################
 
+queryres.o: bitslicedsig/src/queryres.c bitslicedsig/src/queryres.h
+	gcc -c bitslicedsig/src/queryres.c
+
 bitslicedsig.o: bitslicedsig/src/bitslicedsig.c bitslicedsig/src/bitslicedsig.h murmurhash.o
 	gcc -c bitslicedsig/src/bitslicedsig.c
 
-test_bitslicedsig: bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig_main.h bitslicedsig/test/test_bitslicedsig.c bitslicedsig/test/test_bitslicedsig.h bitslicedsig.o murmurhash.o
-	gcc -Wpedantic -Wall -Wextra -o test_bitslicedsig bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig.c bitslicedsig.o murmurhash.o
+test_bitslicedsig: bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig_main.h bitslicedsig/test/test_bitslicedsig.c bitslicedsig/test/test_bitslicedsig.h bitslicedsig.o queryres.o murmurhash.o
+	gcc -Wpedantic -Wall -Wextra -o test_bitslicedsig bitslicedsig/test/test_bitslicedsig_main.c bitslicedsig/test/test_bitslicedsig.c bitslicedsig.o queryres.o murmurhash.o
 
 clean:
 	rm *.o murmurhash.o test_* prog_* bf_*
