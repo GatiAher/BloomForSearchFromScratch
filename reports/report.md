@@ -22,7 +22,7 @@ make demo_bss_xkcd_query
 
 See the full `MakeFile` for more demos and list of all the executable programs. All files and programs are properly documented in the header files, and for any executable, running `<program_name> -h` will reveal argument details for running the program.
 
-*See test and demo output results in the [results folder](results).*
+*See test and demo output results in the [results folder](../results).*
 
 ## Goals + Outcomes + Reflection
 
@@ -32,7 +32,7 @@ Thus, in terms of experience goals, I wanted to gain experience designing and us
 
 My highest bound was implementing some of the optimizations used by Bing search engine's BitFunnel algorithm. However, they reach their best performance improvements by simply sharding their gigantic corpus intelligently (i.e. binning documents by number of unique terms) so that they can store shorter document signatures in less space but still have precision for larger documents. This design decision makes sense for a production information retrieval system that was already sharding its corpus, but makes less sense for me. Therefore, for this project I pivoted to an actionable upper bound: a set of demos that demonstrate various aspects of Bloom filters and bit-sliced signatures and provide me with an intuition of how to use them.
 
-Overall, I met the higher bound for this project. I sucessfully implemented a Bloom filter and bit-sliced signatures, and made some really pretty and fun demos.
+Overall, I met the higher bound for this project. I sucessfully implemented a Bloom filter and bit-sliced signatures, and made some really pretty and fun demos. 
 
 Throughout the project, I updated my progress on this [Trello Board](https://trello.com/b/xzVRxTDJ/bloomforsearchfromscratch).
 
@@ -44,7 +44,7 @@ Throughout the project, I updated my progress on this [Trello Board](https://tre
 
 The Bloom filter is a probabilistic, space-efficient data structure that can tell you whether an object is in a collection with the possibility of a false positive. It does not store the terms directly, it just stores indicators (a.k.a. hashes, probes) of each term’s presence. 
 
-![Bloom filter](results/Bloom_filter_example.png "Bloom filter")
+![Bloom filter](../results/Bloom_filter_example.png "Bloom filter")
 
 False positive matches are possible, but false negatives are not: so given a query it can either return "possibly in set" or "definitely not in set". This false positive rate can be controlled by increasing number of bits and increasing number of hash functions (See section: [Note On Controlling False Positives](#note-on-controlling-false-positives)).
 
@@ -60,7 +60,7 @@ It creates and saves the Bloom filter, and then loads and uses that Bloom filter
 
 Since I want my spellchecker to recognize my name, I use my Bloom filter editor program to load, edit and save the Bloom filter so that it recognize my name (Gati) as a properly spelled word. Then I load and use the new Bloom filter to evaluate the query again. This time, it recognizes my name as a correctly spelled word.
 
-![Demo 1: Bloom filter spellcheck](results/output_demo_spellcheck_use_and_modify_bf.png "Demo 1: Bloom filter spellcheck")
+![Demo 1: Bloom filter spellcheck](../results/output_demo_spellcheck_use_and_modify_bf.png "Demo 1: Bloom filter spellcheck")
 
 An important property of Bloom filters is that items can be added to it, but items cannot be removed, as deleting the set bits of a query may impact the set bits of other items.
 
@@ -72,7 +72,7 @@ Furthermore, the resulting Bloom filter is ~262KB, which is 1/4th of the size of
 
 My Bloom filter spellchecker can also be used to spellcheck files. I have a demo that uses my Bloom filter to spellcheck my README:
 
-![Demo 2: Bloom filter spellcheck README](results/output_demo_spellcheck_README.png "Demo 1: Bloom filter spellcheck README")
+![Demo 2: Bloom filter spellcheck README](../results/output_demo_spellcheck_README.png "Demo 1: Bloom filter spellcheck README")
 
 In the screenshot you can see words flagged as incorrect highlighted in red. You can see that, in addition to flagging non-English words like "https" and "murmurhash", it also flags words with atypical casing. For example, it believes that "It" is incorrect, as only "it" exists in its vocabulary.
 
@@ -105,13 +105,13 @@ A document can be represented by its document signature, which is just a Bloom f
 
 If all the signatures have the same length and share a common hashing scheme, each document can be represented by a bit-sliced signature. In this approach, document signatures are stored in a big table, like a nested array of machine words (32-bit integers). Each row corresponds to one hash value. In the row, each of the 32 bits in an element correspond to 32 documents, and the bit is on or off depending on whether the document has the hash value.
 
-![bit-sliced signature](results/bitslicedsig_example.png "bit-sliced signature")
+![bit-sliced signature](../results/bitslicedsig_example.png "bit-sliced signature")
 
 Given a query, the program builds a query signature by hashing each term in the query with the same bag of hash functions, and then checks if any of the document signatures have all of the query hashes. If all of the query hashes are not present in the document signature, there is no possibility of the document containing all of the terms in the query. However, since sets of terms can have the same hashes, there is a possibility of falsely saying all the query terms are in the document.
 
 **bit-sliced-signature representation in code**
 
-Here I talk though some key logic points from [bitslicedsig/src/bitslicedsig.c](bitslicedsig/src/bitslicedsig.c)
+Here I talk though some key logic points from [bitslicedsig/src/bitslicedsig.c](../bitslicedsig/src/bitslicedsig.c)
 
 First of all, to really understand what was going on in bitsliced signatures, I refered to the post [Blocked Signatures in Java on Richard Startin's Blog](https://richardstartin.github.io/posts/blocked-signatures). It provided a good overview of the data structure and gave some abstract Java code to begin implementing it.
 
@@ -152,7 +152,7 @@ bitslicedsig_t *bitslicedsig_create(u_int32_t m, u_int32_t k, u_int32_t min_doc_
 
 The main logic for both adding and querying essentially work the same way. I use a tokenizer and a while loop to turn an input into terms, and then I hash each term and set/check the corresponding bit.
 
-I use modulus twice, first to fit the hash function into the proper range of my bit signature (while still keeping it random and independently distributed (see section: [Note on Choice of Hash Function](#note-on-choice-of-hash-function))), then again to find the proper bit to set in the block.
+I use modulus twice, first to fit the hash function into the proper range of my bit signature (while still keeping it random and independently distributed (see section: [Note on Choice of Hash Function](#note-on-choice-of-hash-function))), then again to find the proper bit to set in the block. 
 
 ```C
 void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *filename)
@@ -236,7 +236,8 @@ In this demo, I add 40 documents (allocating two blocks of 64 bits), use signatu
 
 As a demo query, I search for the term "outside". This word actually appears in two documents: 30 and 14.
 
-Here is an excerpt of the final [results](results/output_demo_bss_xkcd_query.txt):
+Here is an excerpt of the final [results](../results/output_demo_bss_xkcd_query.txt):
+
 ```
 ---------------------------------
 Bit-Sliced Block Signature
@@ -334,7 +335,7 @@ u_int32_t get_next_pow_2(u_int32_t n)
 
 2. **Function pointers for cleaner, resuable code**
 
-I can use function wrappers with function pointers in order to reuse code and make cleaner files. In [bloom/test/test_bloom.c](bloom/test/test_bloom.c) I define a wrapper function to parse string inputs into tokens in a consistent manner for insertion and querying.
+I can use function wrappers with function pointers in order to reuse code and make cleaner files. In [bloom/test/test_bloom.c](../bloom/test/test_bloom.c) I define a wrapper function to parse string inputs into tokens in a consistent manner for insertion and querying.
 
 ```C
 void process_stream(test_results_t *test_res, bloom_t *filter, void (*operate)(test_results_t *, bloom_t *, char *), FILE *stream)
@@ -418,14 +419,13 @@ echo "hi my name is Gati" | ./bf_play -f bf_spellcheck.dat -v
 ./bf_play -f bf_spellcheck.dat -i README.md
 ```
 
-
 4. **Flexible output modes by using Linked Lists for indeterminately sized result arrays**
 
 The bit-sliced document signature can output a variable number of matching documents. Storing these documents efficiently is an interesting problem. My first solution involved just printing the matching document IDs out directly from inside the bitslicedsig_query function. However, this is not a good practice because it limits the format options of the displayed output. A better method would be to store the matching outputs and return a pointer to the structure. For this, I had some different options:
 
 On one hand, I could store the output document IDs in an array that is the size of the maximum number of documents. However, I know that the majority of documents are not going to be matches and alloting memory for a huge array, especially if there are many documents, is not ideal.
 
-My alternative solution involved using a linked list. I implement the linked list in [bitslicedsig/src/queryres.c](bitslicedsig/src/queryres.c). A linked list is a good choice for situations where the number of items is unknown and items are more likely to be accessed sequentially than via random access.
+My alternative solution involved using a linked list. I implement the linked list in [bitslicedsig/src/queryres.c](../bitslicedsig/src/queryres.c). A linked list is a good choice for situations where the number of items is unknown and items are more likely to be accessed sequentially than via random access.
 
 ```C
 queryres_t *qr = bitslicedsig_query(bss, options->fread_input_from);
@@ -455,10 +455,9 @@ https://xkcd.com/14
 ```
 Where the document IDs are tied to a clickable url.
 
-
 5. **Enums and binary flags for display modes**
 
-For the bloom filter player [bloom/demo/bf_play_main.c](bloom/demo/bf_play_main.c) I use enums to designate the various output modes.
+For the bloom filter player [bloom/demo/bf_play_main.c](../bloom/demo/bf_play_main.c) I use enums to designate the various output modes.
 
 ```
 ./bf_play -h
@@ -482,31 +481,32 @@ Examples of different combinations of output formats:
 ./bf_play -f bf_spellcheck.dat -i README.md -x
 ```
 
-![output_demo_spellcheck_readme_x](results/output_demo_spellcheck_readme_x.png "output_demo_spellcheck_readme_x")
+![output_demo_spellcheck_readme_x](../results/output_demo_spellcheck_readme_x.png "output_demo_spellcheck_readme_x")
 
 ```bash
 ./bf_play -f bf_spellcheck.dat -i README.md -s
 ```
 
-![output_demo_spellcheck_readme_s](results/output_demo_spellcheck_readme_s.png "output_demo_spellcheck_readme_s")
+![output_demo_spellcheck_readme_s](../results/output_demo_spellcheck_readme_s.png "output_demo_spellcheck_readme_s")
 
 ```bash
 ./bf_play -f bf_spellcheck.dat -i README.md -sx
 ```
 
-![output_demo_spellcheck_readme_sx](results/output_demo_spellcheck_readme_sx.png "output_demo_spellcheck_readme_sx")
+![output_demo_spellcheck_readme_sx](../results/output_demo_spellcheck_readme_sx.png "output_demo_spellcheck_readme_sx")
+
 
 6. **Overall Program Design**
 
-I also wanted practice designing and writing clean, modular code. I accomplish this by making the decision to split the code for the actual data structure into a src folder (see [bloom/src](bloom/src) and [bitslicedsig/src](bitslicedsig/src)).
+I also wanted practice designing and writing clean, modular code. I accomplish this by making the decision to split the code for the actual data structure into a src folder (see [bloom/src](../bloom/src) and [bitslicedsig/src](../bitslicedsig/src)).
 
-By encapsulating the code for the data structures, I was able to define a concrete API for the data structure and test that all the exposed functions of the API worked properly (see [bloom/test](bloom/src) and [bitslicedsig/test](bitslicedsig/src)).
+By encapsulating the code for the data structures, I was able to define a concrete API for the data structure and test that all the exposed functions of the API worked properly (see [bloom/test](../bloom/src) and [bitslicedsig/test](../bitslicedsig/src)).
 
 After writing the test for the full end-to-end use-case, writing the demo programs was very easy; I just had to make sure the user interface was properly defined for each program and then call the appropriate data structure functions. Writing code in this way meant that my code base was reliable, predictable, and well organized. For example, my demos use an editor program and a player program. These each encapsulate a core functionality of interacting with the data structure (add and query, respectively).
 
-The editor program (see [bloom/demo/bf_editor_main.h](bloom/demo/bf_editor_main.h) and [bitslicedsig/demo/bss_editor_main.h](bitslicedsig/demo/bss_editor_main.h)) creates a new data structure, or loads and edits an already saved data structure, and then saves the final results. This file thus uses create / load, add, and save functions of the corresponding data structure. 
+The editor program (see [bloom/demo/bf_editor_main.h](../bloom/demo/bf_editor_main.h) and [bitslicedsig/demo/bss_editor_main.h](../bitslicedsig/demo/bss_editor_main.h)) creates a new data structure, or loads and edits an already saved data structure, and then saves the final results. This file thus uses create / load, add, and save functions of the corresponding data structure. 
 
-The play program (see [bloom/demo/bf_play_main.h](bloom/demo/bf_play_main.h) and [bitslicedsig/demo/bss_play_main.h](bitslicedsig/demo/bss_play_main.h)) loads the data structure from a file, and then processes queries from stdin or a file and displays the results in some pretty, user-customizable manner.
+The play program (see [bloom/demo/bf_play_main.h](../bloom/demo/bf_play_main.h) and [bitslicedsig/demo/bss_play_main.h](../bitslicedsig/demo/bss_play_main.h)) loads the data structure from a file, and then processes queries from stdin or a file and displays the results in some pretty, user-customizable manner.
 
 ---
 
@@ -526,7 +526,7 @@ You can try out murmurhash with
 ```
 make test_murmurhash && ./test_murmurhash
 ```
-See expected output at [results/output_test_murmurhash.txt](results/output_test_murmurhash.txt).
+See expected output at [results/output_test_murmurhash.txt](../results/output_test_murmurhash.txt).
 
 ---
 
