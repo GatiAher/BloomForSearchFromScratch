@@ -199,52 +199,32 @@ The main logic for both adding and querying essentially work the same way. I use
 I use modulus twice, first to fit the hash function into the proper range of my bit signature (while still keeping it random and independently distributed (see section: [Note on Choice of Hash Function](#note-on-choice-of-hash-function))), then again to find the proper bit to set in the block.
 
 ```C
-void bitslicedsig_add_doc(bitslicedsig_t *bitslicedsig, u_int32_t index, char *filename)
+...
+
+// turn index into a column location inside of a block location, where WORD_POW = 5 (2^5 = 32) and WORD_SIZE = 32
+u_int32_t blockIndex = index >> WORD_POW;
+u_int32_t docWord = 1ULL << mod_pow_2(index, WORD_SIZE);
+
+while (fgets(buffer, bufferLength, f))
 {
-
-    FILE *f;
-    f = fopen(filename, "r");
-    if (f == NULL)
+    rest = buffer;
+    while ((token = strtok_r(rest, " !\"#$%%&()*+,-./:;<=>?@[\\]^_`{|}~", &rest)))
     {
-        perror(filename);
-        return;
-    }
-
-    u_int32_t h;
-    u_int32_t hash;
-
-    // turn index into a column location inside of a block location, where WORD_POW = 5 (2^5 = 32) and WORD_SIZE = 32
-    u_int32_t blockIndex = index >> WORD_POW;
-    u_int32_t docWord = 1ULL << mod_pow_2(index, WORD_SIZE);
-
-    const u_int32_t bufferLength = 1023; // assumes no term exceeds length of 1023
-    char buffer[bufferLength];
-    char *token;
-    char *rest;
-
-    while (fgets(buffer, bufferLength, f))
-    {
-        rest = buffer;
-        while ((token = strtok_r(rest, " !\"#$%%&()*+,-./:;<=>?@[\\]^_`{|}~", &rest)))
+        if (token[strlen(token) - 1] == '\n')
+            token[strlen(token) - 1] = '\0';
+        /* hash each term with each hash function */
+        for (h = 0; h < bitslicedsig->k; h++)
         {
-            if (token[strlen(token) - 1] == '\n')
-                token[strlen(token) - 1] = '\0';
-            /* hash each term with each hash function */
-            for (h = 0; h < bitslicedsig->k; h++)
-            {
-                // hash the token to generate a hash
-                hash = murmurhash(token, (u_int32_t)strlen(token), bitslicedsig->hash_seeds[h]);
-                // decide what row to set by taking hash % number of bits
-                hash = mod_pow_2(hash, bitslicedsig->m);
-                // set the bit in array by changing specific bit of specific word
-                bitslicedsig->bit_matrix[hash][blockIndex] |= docWord;
-            }
+            // hash the token to generate a hash
+            hash = murmurhash(token, (u_int32_t)strlen(token), bitslicedsig->hash_seeds[h]);
+            // decide what row to set by taking hash % number of bits
+            hash = mod_pow_2(hash, bitslicedsig->m);
+            // set the bit in array by changing specific bit of specific word
+            bitslicedsig->bit_matrix[hash][blockIndex] |= docWord;
         }
     }
-
-    fclose(f);
-    bitslicedsig->added_d++;
 }
+...
 ```
 
 While performing the query logic, I attempt to find an intersection of all the query hashed rows. When intersecting a set of rows, the outer loop goes over the register-sized chunks in each row and the inner loop is over the set of rows. A word mask stores the cummulative results of AND operations over the rows of a block of documents. In many cases, this word mask will become zero in the inner loop before all of the rows have been examined. Since additional intersections cannot change the result, it is possible to break out of the inner loop at this point.
@@ -383,19 +363,7 @@ I can use function wrappers with function pointers in order to reuse code and ma
 ```C
 void process_stream(test_results_t *test_res, bloom_t *filter, void (*operate)(test_results_t *, bloom_t *, char *), FILE *stream)
 {
-    const uint32_t bufferLength = 1023; // assumes no term exceeds length of 1023
-    char buffer[bufferLength];
-    char *token;
-    char *rest;
-
-    /* check that stream is not a NULL pointer */
-    if (!stream)
-    {
-        perror("Error: could not open file\n");
-        exit(EXIT_FAILURE);
-        /* NOTREACHED */
-    }
-    rewind(stream);
+    ...
 
     while (fgets(buffer, bufferLength, stream))
     {
@@ -410,25 +378,7 @@ void process_stream(test_results_t *test_res, bloom_t *filter, void (*operate)(t
 }
 
 // example of defined function I can use as an input
-void operate_test_add_with_warning(test_results_t *test_res, bloom_t *filter, char *token)
-{
-    if (test_res->verbose)
-        printf("test: bloom_add_with_warning\n");
-    bool isIn;
-    isIn = bloom_add_with_warning(filter, token);
-    if (isIn)
-    {
-        test_res->count_add_warnings++;
-        if (test_res->verbose)
-            printf("!! WARNING: all bits have already been set for %s\n", token);
-    }
-    else
-    {
-        if (test_res->verbose)
-            printf(">> added %s\n", token);
-    }
-}
-...
+void operate_test_add_with_warning(test_results_t *test_res, bloom_t *filter, char *token);
 ```
 
 This allows me to write add and lookup tests like this:
