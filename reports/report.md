@@ -24,11 +24,55 @@ See the full `MakeFile` for more demos and list of all the executable programs. 
 
 *See test and demo output results in the [results folder](../results).*
 
+---
+
+## Table of Contents
+
+1. [Goals + Outcomes + Reflection](#goals-+-outcomes-+-reflection)
+
+2. [Bloom Filter](#bloom-filter)
+
+    2.1 [Demo 1: Bloom filter to spellcheck a query](#demo-1:-bloom-filter-to-spellcheck-a-query)
+
+    2.2 [Demo 2: Bloom filter to spellcheck a file](#demo-2:-bloom-filter-to-spellcheck-a-file)
+
+    2.3 [Interesting Further Reading / Use-Cases for Bloom Filters](#interesting-further-reading-/-use-cases-for-bloom-filters)
+
+3. [Bit-Sliced Document Signatures](#bit-sliced-document-signatures)
+
+    3.1 [Demo 3: Information retrieval on xkcd comics transcripts](#demo-3:-information-retrieval-on-xkcd-comics-transcripts)
+
+    3.2 [Interesting Further Reading / Use-Cases for Bit-Sliced Signatures](#interesting-further-reading-/-use-cases-for-bit-sliced-signatures)
+
+4. Appendix
+
+    4.1 [Note on Code Design](#note-on-code-design)
+
+        4.1.1 Interesting bit-wise helper functions that take advantage of powers of 2
+
+        4.1.2 Function pointers for cleaner, resuable code
+
+        4.1.3 Flexible input modes using FILE pointers
+
+        4.1.4 Flexible output modes by using Linked Lists for indeterminately sized result arrays
+
+        4.1.5 Enums and binary flags for display modes
+
+        4.1.6 Overall Modular Program Design
+
+    4.2 [Note on Controlling False Positives](#note-on-controlling-false-positives)
+
+    4.3 [Note on Choice of Hash Function](#note-on-choice-of-hash-function)
+
+5. [Future Directions](#future-directions)
+
+---
+
 ## Goals + Outcomes + Reflection
 
 I wanted to learn about Bloom filters because I have heard about them being used in real world codebases and I was curious about them. I particularly wanted to implement a extension of Bloom filters called bit-sliced signatures that I heard of in the ["BitFunnel: Revisiting Signatures for Search" talk by Micheal Hopcroft, creator of BitFunnel](https://www.youtube.com/watch?v=1-Xoy5w5ydM). This was an interesting Software Systems project because many Bloom filter implementations are done in C/C++ in order to have full control and optimization of low-level bit-wise operations 
 
-Thus, in terms of experience goals, I wanted to gain experience designing and using bit-wise operations, structs, function pointers, file pointers, enums, linked lists, Makefiles, writing modular code, and other programming concepts I learned about in class. (See section: [Note On Code Design](#note-on-code-design) for more information about my specific coding design decisions).
+Thus, in terms of experience goals, I wanted to gain experience designing and using bit-wise operations, structs, function pointers, file pointers, enums, linked lists, Makefiles, writing modular code, and other programming concepts I learned about in class. (See section: [Note on Code Design](#note-on-code-design) for more information about my specific coding design decisions).
 
 My highest bound was implementing some of the optimizations used by Bing search engine's BitFunnel algorithm. However, they reach their best performance improvements by simply sharding their gigantic corpus intelligently (i.e. binning documents by number of unique terms) so that they can store shorter document signatures in less space but still have precision for larger documents. This design decision makes sense for a production information retrieval system that was already sharding its corpus, but makes less sense for me. Therefore, for this project I pivoted to an actionable upper bound: a set of demos that demonstrate various aspects of Bloom filters and bit-sliced signatures and provide me with an intuition of how to use them.
 
@@ -46,13 +90,13 @@ The Bloom filter is a probabilistic, space-efficient data structure that can tel
 
 ![Bloom filter](../results/Bloom_filter_example.png "Bloom filter")
 
-False positive matches are possible, but false negatives are not: so given a query it can either return "possibly in set" or "definitely not in set". This false positive rate can be controlled by increasing number of bits and increasing number of hash functions (See section: [Note On Controlling False Positives](#note-on-controlling-false-positives)).
+False positive matches are possible, but false negatives are not: so given a query it can either return "possibly in set" or "definitely not in set". This false positive rate can be controlled by increasing number of bits and increasing number of hash functions (See section: [Note on Controlling False Positives](#note-on-controlling-false-positives)).
 
 The probabilistic feature allows Bloom filters to do membership validation in very little time and very little space. So these Bloom filter lookup tables can even be stored in a browser cache without taking up a significant amount of space. In the real world, Bloom filters are used to quickly tell you if a username is taken, or to quickly check if a website is known to be malicious. They have also been used as spell-checkers and filters for censoring words. The start-up I was interning for last summer implemented a Bloom filter to speed up their database querying times by avoiding checking the database for almost all items which won't be found in it anyway, thus saving a lot of time and effort.
 
 *I implement two demos to show the functionality of Bloom filters.*
 
-### Demo 1: Bloom filter to spellcheck a query.
+### Demo 1: Bloom filter to spellcheck a query
 
 My first demo creates a Bloom filter to check for properly spelled words. It uses a list of words from `/usr/share/dict/words`. For preprocessing, it splits terms by ` !\"#$%%&()*+,-./:;<=>?@[\\]^_`{|}~`
 
@@ -68,7 +112,7 @@ The spellchecker demo adds 102401 terms, hashes each term with 13 hash functions
 
 Furthermore, the resulting Bloom filter is ~262KB, which is 1/4th of the size of the original `/usr/share/dict/words` word list (972.4KB).
 
-### Demo 2:
+### Demo 2: Bloom filter to spellcheck a file
 
 My Bloom filter spellchecker can also be used to spellcheck files. I have a demo that uses my Bloom filter to spellcheck my README:
 
@@ -469,6 +513,7 @@ For the bloom filter player [bloom/demo/bf_play_main.c](../bloom/demo/bf_play_ma
 I use an enum and binary flags to designate the options:
 
 ```
+# pseudocode
 00 = ALL, OUT
 01 = ALL, IN
 10 = SELECTED, OUT
@@ -496,7 +541,7 @@ Examples of different combinations of output formats:
 ![output_demo_spellcheck_readme_sx](../results/output_demo_spellcheck_readme_sx.png "output_demo_spellcheck_readme_sx")
 
 
-6. **Overall Program Design**
+6. **Overall Modular Program Design**
 
 I also wanted practice designing and writing clean, modular code. I accomplish this by making the decision to split the code for the actual data structure into a src folder (see [bloom/src](../bloom/src) and [bitslicedsig/src](../bitslicedsig/src)).
 
@@ -510,7 +555,7 @@ The play program (see [bloom/demo/bf_play_main.h](../bloom/demo/bf_play_main.h) 
 
 ---
 
-### Note On Controlling False Positives
+### Note on Controlling False Positives
 
 You can control the number of false positives (reduce collision) by increasing number of signature bits (m) and increasing number of hash functions (k).
 
@@ -518,7 +563,7 @@ The value of m configures how many bits will be allocated for the bit array. Ide
 
 The value of k configures how many hash functions will be used in the Bloom filter hashing scheme. A higher number of hash functions means that there is a higher signal to noise ratio, where signal is the probability that a term is a member of a set given that all the term's probes are present in the Bloom filter, and noise is the probability of a false positive. Rarer terms have a higher likelihood of being a false positive, so increasing k improves the signal to noise ratio and allows for better retrieval of rate terms. However, a larger k leads to more hash operations, and therefore slower insertion and lookup time. The seeds of the hash function are generated with a random number generator in order to be independent and uniformly distributed.
 
-### Note on Choice of Hash Function:
+### Note on Choice of Hash Function
 
 The hash function used in a Bloom filter must be independent, uniformly distributed, and as fast as possible. MurmurHash is a non-cryptographic hash function suitable for general hash-based lookup. In this project, I use [jwerle/murmurhash](https://fuchsia.googlesource.com/third_party/murmurhash.c/) which implements version 3 of MurmurHash and provides 32-bit hash signatures.
 
@@ -530,7 +575,7 @@ See expected output at [results/output_test_murmurhash.txt](../results/output_te
 
 ---
 
-### Future Directions
+## Future Directions
 
 Currently, the Bloom filter and bit-sliced signatures perform exact keyword search. However, there are situations where a fuzzier keyword search is desirable. Ways to make a fuzzy keyword search include:
 
