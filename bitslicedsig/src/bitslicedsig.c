@@ -322,7 +322,7 @@ void bitslicedsig_print(bitslicedsig_t *bitslicedsig)
     printf("\n\npercent filled = ");
     double m = bitslicedsig->m;
     for (i = 0; i < bitslicedsig->num_blocks * WORD_SIZE; i++)
-        printf("%d=%.2f%% ", i, colsums[i]/m);
+        printf("%d=%.2f%% ", i, colsums[i] / m);
 
     printf("\n---------------------------------\n");
 }
